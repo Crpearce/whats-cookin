@@ -10,7 +10,7 @@ describe('Recipe', () => {
   let recipe;
   let ingredient;
 
-  beforeEach(function() {
+  beforeEach(() => {
     demoData = [{
       "id": 595736,
       "image": "https://spoonacular.com/recipeImages/595736-556x370.jpg",
@@ -134,36 +134,49 @@ describe('Recipe', () => {
 
   });
 
-  it('Should be a function', () => {
+  it.skip('Should be a function', () => {
     expect(Recipe).to.be.a('function');
   });
 
-  it('should be a new instance of Recipe', () => {
+  it.skip('should be a new instance of Recipe', () => {
     expect(recipe).to.be.an.instanceof(Recipe);
   });
 
-  it('should have an id', () => {
+  it.skip('should have an id', () => {
     expect(recipe.id).to.equal(demoData.id);
   });
 
-  it('should have an image', () => {
+  it.skip('should have an image', () => {
     expect(recipe.image).to.equal(demoData.image);
   });
 
-  it('should have an ingredients', () => {
+  it.skip('should have an ingredients', () => {
     expect(recipe.ingredients).to.equal(demoData.ingredients);
   });
 
-  it('should have an instructions', () => {
+  it.skip('should have an instructions', () => {
     expect(recipe.instructions).to.equal(demoData.instructions);
   });
 
-  it('should have a recipe name', () => {
+  it.skip('should have a recipe name', () => {
     expect(recipe.name).to.equal(demoData.name);
   });
 
-  it('should have recipe tags', () => {
+  it.skip('should have recipe tags', () => {
     expect(recipe.tags).to.equal(demoData.tags);
   });
 
+  it.skip('should give a list of ingredients', () => {
+    expect(recipe.listIngredients()).to.deep.equal(recipe.ingredients);
+  });
+
+  it.skip('should give an estimated cost of ingredients', () => {
+    expect(recipe.estimateIngredientCost()).to.equal('$177.76');
+  });
+
+  it.skip('should provide recipe\'s instructions', () => {
+    expect(recipe.provideRecipeInstructions()).to.equal(recipe.instructions);
+  });
+
 });
+
