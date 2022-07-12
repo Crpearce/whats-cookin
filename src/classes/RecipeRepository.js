@@ -1,8 +1,11 @@
 class RecipeRepository {
-  constructor() {
+  constructor(Recipe) {
+  };
+  pickRecipeTag() {
+  };
+  pickRecipeName() {
+  };
 
-    // One class to get you started!
-  }
-}
+};
 
 export default RecipeRepository;
