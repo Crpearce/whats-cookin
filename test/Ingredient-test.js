@@ -1,12 +1,10 @@
-import {
-    expect
-  } from 'chai';
-  import Ingredient from '../src/classes/Ingredient';
-  
-  
+import { expect } from 'chai';
+import Ingredient from '../src/classes/Ingredient';
+
+
   describe('Ingredient', () => {
    let ingredient;
-  
+
     beforeEach(() => {
         ingredient = new Ingredient({
             "id": 20081,
@@ -15,27 +13,27 @@ import {
           });
     });
 
-    it.skip('Should be a function', () => {
+    it('Should be a function', () => {
         expect(Ingredient).to.be.a('function');
     });
 
-    it.skip('should be a new instance of Ingredient', () => {
+    it('should be a new instance of Ingredient', () => {
         expect(ingredient).to.be.an.instanceof(Ingredient);
 
     });
 
-    it.skip('should have an id', () => {
-        expect(ingredient.id).to.equal(ingredient.id);
+    it('should have an id', () => {
+        expect(ingredient.id).to.equal(20081);
 
     });
 
-    it.skip('should have a name', () => {
-        expect(ingredient.name).to.equal(ingredient.name);
+    it('should have a name', () => {
+        expect(ingredient.name).to.equal("wheat flour");
 
     });
 
-    it.skip('should have an estimated cost in cents', () => {
-        expect(ingredient.estimatedCostInCents).to.equal(ingredient.estimatedCostInCents);
+    it('should have an estimated cost in cents', () => {
+        expect(ingredient.estimatedCostInCents).to.equal(142);
 
     });
 
