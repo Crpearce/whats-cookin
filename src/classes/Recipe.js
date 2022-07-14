@@ -1,23 +1,31 @@
 import Ingredient from './Ingredient';
-import ingredientsData from '../data/ingredients';
 
 class Recipe {
-  constructor(recipe, ingredientsData) {
+  constructor(recipe, sampleIngredientData) {
     this.id = recipe.id;
     this.image = recipe.image;
     this.ingredients = recipe.ingredients;
     this.instructions = recipe.instructions;
     this.name = recipe.name;
     this.tags = recipe.tags;
-    this.ingredientsData = ingredientsData;
+    this.ingredientList = sampleIngredientData;
+    // console.log(this.ingredientList)
   };
   listIngredients(){
+    let ingredientNames = [];
     let getIds = this.ingredients.map(ingredient => ingredient.id)
-    let findIds = getIds.forEach(id =>  {
-      if(id === ingredientsData.id){
-        return ingredientsData.name
+    console.log(getIds)
+      getIds.forEach(id =>  {
+      this.ingredientList.forEach(ingredient => {
+      if(id === this.ingredientList.id){
+        ingredientNames.push(this.ingredientList.name)
       }
+      })
     })
+    return ingredientNames
+    console.log(ingredientNames)
+
+
     // console.log(ingredientsData)
     // 1 - look at this.ingredients for id's
     //    - collect all ids from a recipe in an array

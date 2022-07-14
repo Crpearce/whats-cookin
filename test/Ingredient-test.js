@@ -1,16 +1,40 @@
 import { expect } from 'chai';
 import Ingredient from '../src/classes/Ingredient';
+import sampleIngredientData from '../src/data/sample-ingredients';
+
+
 
 
   describe('Ingredient', () => {
    let ingredient;
+   let ingredient1;
+   let ingredient2;
+   let ingredientList;
 
     beforeEach(() => {
-        ingredient = new Ingredient({
-            "id": 20081,
-            "name": "wheat flour",
-            "estimatedCostInCents": 142
-          });
+      // ingredientList = sampleIngredientData.map(ingredient =>  {
+      //
+      //   return ingredient = new Ingredient(sampleIngredientData[i])
+      //   // in each ingredients once return is run, we need a way to check the next ingredient to finish this map
+      //
+      // });
+      // console.log(ingredientList)
+
+        ingredient = new Ingredient(sampleIngredientData[0]);
+        ingredient1 = new Ingredient(sampleIngredientData[1]);
+        ingredient2 = new Ingredient(sampleIngredientData[2]);
+        ingredientList = [ingredient, ingredient1, ingredient2]
+// with an iterator method instead
+// const would be an ingredient list
+// go into sample ingredient data and for each ingredient create a new Instance of ingredient and return an array of all those new instances
+// let ingredientList = sampleIngredientData.map(ingredient =>      ingredient = new Ingredient(sampleIngredientData);
+
+
+
+
+
+// later thoughts how do they talk to each other
+
     });
 
     it('Should be a function', () => {
