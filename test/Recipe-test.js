@@ -2,15 +2,15 @@ import { expect } from 'chai';
 
 import Recipe from '../src/classes/Recipe';
 import recipeData from '../src/data/sample-recipes';
-import ingredientsData from '../src/data/ingredients';
+import sampleIngredientData from '../src/data/sample-ingredients';
 
 describe('Recipe', () => {
   let recipe;
   let recipe2;
 
   beforeEach(() => {
-    recipe = new Recipe(recipeData[0]);
-    recipe2 = new Recipe(recipeData[1]);
+    recipe = new Recipe(recipeData[0], sampleIngredientData);
+    recipe2 = new Recipe(recipeData[1], sampleIngredientData);
   });
 
   it('Should be a function', () => {
