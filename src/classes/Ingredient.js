@@ -4,6 +4,11 @@ class Ingredient {
         this.name = ingredientInfo.name;
         this.estimatedCostInCents = ingredientInfo.estimatedCostInCents;
     }
+
+    findIngredientName() {
+      return this.name
+    }
+
 };
 
 module.exports = Ingredient;
