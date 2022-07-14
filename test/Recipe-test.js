@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import Recipe from '../src/classes/Recipe';
 import recipeData from '../src/data/sample-recipes';
+import ingredientsData from '../src/data/ingredients';
 
 describe('Recipe', () => {
   let recipe;
@@ -28,7 +29,7 @@ describe('Recipe', () => {
     expect(recipe.image).to.equal("https://spoonacular.com/recipeImages/595736-556x370.jpg");
   });
 
-  it('should have an ingredients', () => {
+  it('should have ingredients', () => {
       const ingredient = {
         "id": 20081,
         "name": "all purpose flour",
@@ -54,15 +55,16 @@ describe('Recipe', () => {
         "hor d'oeuvre"]);
   });
 
-  it.skip('should give a list of ingredients', () => {
-    expect(recipe.listIngredients()).to.deep.equal(recipe.ingredients);
+  it('should determine the names of ingredients needed', () => {
+    expect(recipe.listIngredients()).to.deep.equal('all purpose flour',
+    'apple cider');
   });
 
   it.skip('should give an estimated cost of ingredients', () => {
     expect(recipe.estimateIngredientCost()).to.equal('$177.76');
   });
 
-  it.skip('should provide recipe\'s instructions', () => {
+  it('should provide a recipe\'s instructions', () => {
     expect(recipe.provideRecipeInstructions()).to.equal(recipe.instructions);
   });
 
