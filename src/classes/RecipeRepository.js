@@ -1,10 +1,12 @@
 class RecipeRepository {
-  constructor(Recipe) {
-  };
+  constructor(Recipe) {};
   pickRecipeTag() {
-    // return an array 
+    // filter method
+    // return an array
   };
   pickRecipeName() {
+    // filter method
+    // return an array
   };
 
 };
