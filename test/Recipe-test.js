@@ -1,6 +1,4 @@
-import {
-  expect
-} from 'chai';
+import { expect } from 'chai';
 
 import Recipe from '../src/classes/Recipe';
 import recipeData from '../src/data/sample-recipes';
@@ -63,7 +61,7 @@ describe('Recipe', () => {
   });
 
   it('should give an estimated cost of ingredients', () => {
-    expect(recipe.estimateIngredientCost()).to.deep.equal(9.76);
+    expect(recipe.estimateIngredientCost()).to.deep.equal(177.76);
   });
 
   it('should provide a recipe\'s instructions', () => {

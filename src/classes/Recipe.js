@@ -23,46 +23,32 @@ class Recipe {
       // console.log(ingredientNames)
     })
     return ingredientNames
-
-
-
-    // console.log(ingredientsData)
-    // 1 - look at this.ingredients for id's
-    //    - collect all ids from a recipe in an array
-    //    - once we have the array we will go to step 2
-    // 2 - find()? all id's that match the id's from our
-    //        ingredient data array-- push into array??
-    // 3 -find the matches and return the whole ingredient object
-    // 4 - once we have the ingredient objects(new instantiation of Ingredient)
-    //      we should be able to iterate through to return names
-    //
-    // ingredient.findIngredientName()
-    // console.log(this.ingredients.name);
-    // return this.ingredients.name
   };
   estimateIngredientCost() {
     let estimatedCost = 0;
-    let getQuantity = this.ingredients.map(ingredient => ingredient.quantity.amount)
-    console.log(getQuantity)
 
-    let getIds = this.ingredients.map(ingredient => ingredient.id)
-    getIds.forEach(id => {
-      this.ingredientList.forEach(ingredient => {
-        // console.log(this.ingredients)
-        if (ingredient.id === id) {
-          // console.log(getQuantity)
-          estimatedCost += 1
-          // getQuantity.forEach(quantity => (quantity * ingredient.estimatedCostInCents) / 100)
-          //
-          //calculation ___quantity-amount * ___estimatedCostInCents
-          // console.log(ingredient.estimatedCostInCents);
-          // total / 100
+    this.ingredients.forEach(ingredient => {
+      this.ingredientList.forEach(ingredientInfo => {
+        if(ingredient.id === ingredientInfo.id) {
+          estimatedCost += ((ingredient.quantity.amount * ingredientInfo.estimatedCostInCents) / 100);
         }
       })
-
     })
-    return estimatedCost;
+    return parseFloat(estimatedCost.toFixed(2))
   };
+  //POTENTIAL REFACTOR TO RID OF DOUBLE FOREACH
+  // this.ingredients.forEach(ingredient => {
+  //   const foundIngredient = this.ingredientList.find(ingredientInfo => {   
+  //      return ingredient.id === ingredientInfo.id
+  //    })
+  //    console.log(foundIngredient);
+
+  //    foundIngredient estimatedCost += ((ingredient.quantity.amount * ingredientInfo.estimatedCostInCents) / 100);
+  //    }
+  //  })
+  //  return estimatedCost.toFixed(2);
+
+
   provideRecipeInstructions() {
     return this.instructions
   };
