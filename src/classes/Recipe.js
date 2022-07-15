@@ -1,29 +1,29 @@
 import Ingredient from './Ingredient';
 
 class Recipe {
-  constructor(recipe, sampleIngredientData) {
+  constructor(recipe, ingredientData) {
     this.id = recipe.id;
     this.image = recipe.image;
     this.ingredients = recipe.ingredients;
     this.instructions = recipe.instructions;
     this.name = recipe.name;
     this.tags = recipe.tags;
-    this.ingredientList = sampleIngredientData;
+    this.ingredientList = ingredientData;
     // console.log(this.ingredientList)
   };
-  listIngredients(){
+  listIngredients() {
     let ingredientNames = [];
     let getIds = this.ingredients.map(ingredient => ingredient.id)
-    console.log(getIds)
-      getIds.forEach(id =>  {
+    getIds.forEach(id => {
       this.ingredientList.forEach(ingredient => {
-      if(id === this.ingredientList.id){
-        ingredientNames.push(this.ingredientList.name)
-      }
+        if (ingredient.id === id) {
+          ingredientNames.push(ingredient.name)
+        }
       })
+      // console.log(ingredientNames)
     })
     return ingredientNames
-    console.log(ingredientNames)
+
 
 
     // console.log(ingredientsData)
@@ -40,9 +40,30 @@ class Recipe {
     // console.log(this.ingredients.name);
     // return this.ingredients.name
   };
-  estimateIngredientCost() {}
-  ;
-  provideRecipeInstructions(){
+  estimateIngredientCost() {
+    let estimatedCost = 0;
+    let getQuantity = this.ingredients.map(ingredient => ingredient.quantity.amount)
+    console.log(getQuantity)
+
+    let getIds = this.ingredients.map(ingredient => ingredient.id)
+    getIds.forEach(id => {
+      this.ingredientList.forEach(ingredient => {
+        // console.log(this.ingredients)
+        if (ingredient.id === id) {
+          // console.log(getQuantity)
+          estimatedCost += 1
+          // getQuantity.forEach(quantity => (quantity * ingredient.estimatedCostInCents) / 100)
+          //
+          //calculation ___quantity-amount * ___estimatedCostInCents
+          // console.log(ingredient.estimatedCostInCents);
+          // total / 100
+        }
+      })
+
+    })
+    return estimatedCost;
+  };
+  provideRecipeInstructions() {
     return this.instructions
   };
 };
