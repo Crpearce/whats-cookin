@@ -4,7 +4,7 @@ import Recipe from '../src/classes/Recipe';
 import recipeData from '../src/data/sample-recipes';
 import ingredientData from '../src/data/sample-ingredients';
 
-describe('Recipe Repository', () => { 
+describe('Recipe Repository', () => {
   // let recipeData;
   // let ingredientData
   let recipeRepository;
@@ -17,7 +17,6 @@ beforeEach(() => {
     recipe1 = new Recipe(recipeData[0], ingredientData);
     recipe2 = new Recipe(recipeData[1], ingredientData);
     recipe3 = new Recipe(recipeData[2], ingredientData);
-
 
     recipeRepository = new RecipeRepository([recipe1, recipe2, recipe3]);
   });
@@ -36,14 +35,14 @@ beforeEach(() => {
   });
 
   it('Should filter a recipe based on a tag', () => {
-    
-    expect(recipeRepository.pickRecipeTag('lunch')).to.deep.equal(recipe3)
+
+    expect(recipeRepository.pickRecipeTag('antipasti')).to.deep.equal([recipe1])
     // recipe array
 
   });
-  
-  it.skip('Should filter a recipe based on a name', () => {
-    expect(recipeRepository.pickRecipeName(name)).to.deep.equal(recipes)
+
+  it('Should filter a recipe based on a name', () => {
+    expect(recipeRepository.pickRecipeName('cookie')).to.deep.equal([recipe1])
     // recipe array
 
   });

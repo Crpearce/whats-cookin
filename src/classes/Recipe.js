@@ -1,6 +1,7 @@
+import Ingredient from './Ingredient';
+
 class Recipe {
   constructor(recipe, ingredientData) {
-
     this.id = recipe.id;
     this.image = recipe.image;
     this.ingredients = recipe.ingredients;
@@ -37,7 +38,7 @@ class Recipe {
   };
   //POTENTIAL REFACTOR TO RID OF DOUBLE FOREACH
   // this.ingredients.forEach(ingredient => {
-  //   const foundIngredient = this.ingredientList.find(ingredientInfo => {   
+  //   const foundIngredient = this.ingredientList.find(ingredientInfo => {
   //      return ingredient.id === ingredientInfo.id
   //    })
   //    console.log(foundIngredient);
