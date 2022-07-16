@@ -24,6 +24,8 @@ let user;
 
 
 
+
+
 //query selectors:
 let ideasOption = document.getElementById('userOptionIdeas');
 let savedRecipesOption = document.getElementById('userOptionSavedRecipes');
@@ -33,6 +35,13 @@ let recipeIdeasView = document.getElementById('recipeIdeasView');
 let savedRecipesView = document.getElementById('savedRecipesView');
 let recipeList = document.getElementById('recipeList');
 let h3 = document.getElementById('test');
+
+
+
+
+
+
+
 
 
 
@@ -62,3 +71,111 @@ console.log(recipeRepository)
 
 
 console.log('Hello world');
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Colby'space and Marianne
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Eddie's Space
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
