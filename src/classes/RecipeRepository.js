@@ -31,7 +31,7 @@ return recipesByTag
     let recipesByName = [];
 
     const findByName = this.recipes.filter(recipe => {
-      if(recipe.name.toLowerCase().includes(userName)){
+      if(recipe.name.toLowerCase().includes(userName.toLowerCase())){
         recipesByName.push(recipe)
       }
     });
