@@ -1,7 +1,26 @@
-// class User() {
-//   constructor() {
+class User {
+  constructor() {
 
-//   }
-// }
+  }
 
-// export default User;
+filterByTag() {
+
+};
+
+filterByName() {
+
+};
+
+addRecipeToList() {
+
+};
+
+removeRecipeFromList() {
+
+};
+
+
+
+}
+
+export default User;
