@@ -23,13 +23,21 @@
     <section class="view main-view">
       <h1>What's Cookin'</h1>
       <section class="search-buttons" id="searchButtons">
+        <form accept-charset="">
         <button class="search-name"><img src="./images/search-icon.svg"></button>
-          <input type= "search" id="query1" name="search by name" placeholder="Search recipes by name"></input>
+          <input type= "text" id="query1" name="search by name" placeholder="Search recipes by name">
+        </form>
       <span> -- OR -- </span>
+      <form accept-charset="">
       <button class="search-tag"><img src="./images/search-icon.svg"></button>
-        <input type= "search" id="query2" name="search by tag" placeholder="Search recipes by tag"></input>
+        <input type= "text" id="query2" name="search by tag" placeholder="Search recipes by tag">
+      </form>  
       </section>
       <section class="recipe-list-container" id="recipeList">
+      </section>
+      <section class="recipe-master-container" id="recipeContainer">
+        <section class="recipe-template-container" id="recipeTemplate">
+        </section>
       </section>
     </section>
     <!-- <section class="Suggestions">

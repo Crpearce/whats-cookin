@@ -36,7 +36,8 @@ let recipeIdeasView = document.getElementById('recipeIdeasView');
 let savedRecipesView = document.getElementById('savedRecipesView');
 let recipeList = document.getElementById('recipeList');
 let searchButtons = document.getElementById('searchButtons');
-// let allRecipesContainer = document.getElementById('recipe-list-container');
+let viewRecipeButton = document.getElementById('recipeContainer')
+
 
 
 
@@ -52,6 +53,7 @@ let searchButtons = document.getElementById('searchButtons');
 //eventListeners:
 window.addEventListener('load', openRecipeDetail);
 ideasOptionButton.addEventListener('click', showRecipeIdeas);
+viewRecipeButton.addEventListener('click', viewRecipeDetails);
 // savedRecipesOptionButton.addEventListener('click', showSavedRecipes);
 // allRecipesContainer.addEventListener('click', openRecipeDetail);
 // savedRecipesView.addEventListener('dblclick', deleteSavedRecipes);
@@ -88,12 +90,12 @@ function openRecipeDetail() {
 
 function createRecipe(recipe) {
   let randomizedRecipe = allRecipes[getRandomRecipe(allRecipes)]
-  console.log(randomizedRecipe)
   recipeList.innerHTML += `<div class="recipe-card recipe-${randomizedRecipe.id}" id="recipe-${randomizedRecipe.id}">
     <div class="recipe-image-box">
       <img src=${randomizedRecipe.image} alt="recipe image" class="recipe-display-image">
     </div>
     <h3>${randomizedRecipe.name}</h3>
+    <button class="view-recipe-button">View Recipe</button>
     <button class="save-button">Save Recipe</button>
     <button class="delete-button hidden">Delete Recipe</button>
     </div>`
@@ -101,15 +103,17 @@ function createRecipe(recipe) {
 }
 
 function createRecipeIdeas(recipe) {
-  let randomizedRecipe = allRecipes[getRandomRecipe(allRecipes)]
+  let randomizedRecipe = allRecipes
   // if(randomizedRecipe !== recipe)
-  recipeIdeasView.innerHTML += `<div class="recipe-card recipe-${randomizedRecipe.id}" id="recipe-${randomizedRecipe.id}">
+  recipeIdeasView.innerHTML += `<div class="recipe-card recipe-${recipe.id}" id="recipe-${recipe.id}">
     <div class="recipe-image-box">
-      <img src=${randomizedRecipe.image} alt="recipe image" class="recipe-display-image">
+      <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
     </div>
-    <h3>${randomizedRecipe.name}</h3>
+    <h3>${recipe.name}</h3>
+    <button class="view-recipe-button">View Recipe</button>
     <button class="save-button">Save Recipe</button>
     <button class="delete-button hidden">Delete Recipe</button>
+
     </div>`
     return randomizedRecipe
   //
@@ -124,6 +128,24 @@ function showRecipeIdeas(){
   hide(searchButtons)
 })
 }
+
+
+function viewRecipeDetails() {
+  let recipeDisplay = recipeContainer.innerHTML += `
+    <h3>${recipe.name}</h3>
+    <div class="recipe-id recipe-${recipe.id}" id="recipe-${recipe.id}">
+    <div class="recipe-image-box">
+      <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
+    </div>
+    <div class="recipe-ingredients"${recipe.ingredients}</div>
+    <div class="recipe-instructions"${recipe.instructions}</div>
+    <div class="recipe-tags"${recipe.tags}</div>
+    <button class="view-recipe-button hidden">View Recipe</button>
+    <button class="save-button">Save Recipe</button>
+    <button class="delete-button hidden">Delete Recipe</button>
+    </div>`
+    return recipeDisplay
+};
 //
 // function eliminateDuplicateRecipes(){
 //   let uniqueRecipes = [];
