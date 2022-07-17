@@ -20,7 +20,7 @@ class Recipe {
           ingredientNames.push(ingredient.name)
         }
       })
-      // console.log(ingredientNames)
+     console.log(ingredientNames)
     })
     return ingredientNames
   };
