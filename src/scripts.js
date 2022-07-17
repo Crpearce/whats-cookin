@@ -28,13 +28,14 @@ let user;
 
 
 //query selectors:
-let ideasOption = document.getElementById('userOptionIdeas');
-let savedRecipesOption = document.getElementById('userOptionSavedRecipes');
+let ideasOptionButton = document.getElementById('userOptionIdeas');
+let savedRecipesOptionButton = document.getElementById('userOptionSavedRecipes');
 let searchNameButton = document.getElementById('query1');
 let searchTagButton = document.getElementById('query2');
 let recipeIdeasView = document.getElementById('recipeIdeasView');
 let savedRecipesView = document.getElementById('savedRecipesView');
 let recipeList = document.getElementById('recipeList');
+let searchButtons = document.getElementById('searchButtons');
 // let allRecipesContainer = document.getElementById('recipe-list-container');
 
 
@@ -50,9 +51,10 @@ let recipeList = document.getElementById('recipeList');
 
 //eventListeners:
 window.addEventListener('load', openRecipeDetail);
+ideasOptionButton.addEventListener('click', showRecipeIdeas);
+// savedRecipesOptionButton.addEventListener('click', showSavedRecipes);
 // allRecipesContainer.addEventListener('click', openRecipeDetail);
-// savedRecipesOption.addEventListener('click', seeSavedRecipes);
-savedRecipesView.addEventListener('dblclick', deleteSavedRecipes);
+// savedRecipesView.addEventListener('dblclick', deleteSavedRecipes);
 // recipeList.addEventListener('load', );
 
 //we need a button on the recipe page to save
@@ -92,15 +94,46 @@ function createRecipe(recipe) {
       <img src=${randomizedRecipe.image} alt="recipe image" class="recipe-display-image">
     </div>
     <h3>${randomizedRecipe.name}</h3>
-
+    <button class="save-button">Save Recipe</button>
+    <button class="delete-button hidden">Delete Recipe</button>
     </div>`
     return randomizedRecipe
 }
 
-
-function deleteSavedRecipes () {
-  user.removeRecipeFromList(recipeObject)
+function createRecipeIdeas(recipe) {
+  let randomizedRecipe = allRecipes[getRandomRecipe(allRecipes)]
+  // if(randomizedRecipe !== recipe)
+  recipeIdeasView.innerHTML += `<div class="recipe-card recipe-${randomizedRecipe.id}" id="recipe-${randomizedRecipe.id}">
+    <div class="recipe-image-box">
+      <img src=${randomizedRecipe.image} alt="recipe image" class="recipe-display-image">
+    </div>
+    <h3>${randomizedRecipe.name}</h3>
+    <button class="save-button">Save Recipe</button>
+    <button class="delete-button hidden">Delete Recipe</button>
+    </div>`
+    return randomizedRecipe
+  //
 }
+
+function showRecipeIdeas(){
+  console.log('test')
+  allRecipes.forEach(recipe => {
+  createRecipeIdeas(recipe)
+  show(recipeIdeasView)
+  hide(recipeList)
+  hide(searchButtons)
+})
+}
+//
+// function eliminateDuplicateRecipes(){
+//   let uniqueRecipes = [];
+//   if(!uniqueRecipes.includes(recipe))
+//   uniqueRecipes.push(recipe)
+//
+// }
+// function deleteSavedRecipes () {
+//   user.removeRecipeFromList(recipeObject)
+// }
 
 function getRandomRecipe(allRecipes) {
   return Math.floor(Math.random() * allRecipes.length);
@@ -108,7 +141,13 @@ function getRandomRecipe(allRecipes) {
 
 
 
+function show(e) {
+  e.classList.remove('hidden')
+}
 
+function hide(e) {
+  e.classList.add('hidden')
+}
 
 
 
