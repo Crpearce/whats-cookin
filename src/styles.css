@@ -51,3 +51,6 @@ h3{
   .button-52 {
     padding: 13px 50px 13px;
   } */
+.hidden {
+  display: none;
+}
