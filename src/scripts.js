@@ -17,6 +17,7 @@ import ingredientData from '../src/data/sample-ingredients';
 let allRecipes = recipeData.map(recipe => {
   return new Recipe(recipe, ingredientData);
 })
+
 const recipeRepository = new RecipeRepository(allRecipes);
 let user;
 
@@ -34,7 +35,7 @@ let searchTagButton = document.getElementById('query2');
 let recipeIdeasView = document.getElementById('recipeIdeasView');
 let savedRecipesView = document.getElementById('savedRecipesView');
 let recipeList = document.getElementById('recipeList');
-let h3 = document.getElementById('test');
+// let allRecipesContainer = document.getElementById('recipe-list-container');
 
 
 
@@ -48,29 +49,26 @@ let h3 = document.getElementById('test');
 
 
 //eventListeners:
-window.addEventListener('load', generateRecipes);
-// ideasOption.addEventListener('click', randomizedRecipeIdeas);
+window.addEventListener('load', openRecipeDetail);
+// allRecipesContainer.addEventListener('click', openRecipeDetail);
 // savedRecipesOption.addEventListener('click', seeSavedRecipes);
-// savedRecipesView.addEventListener('dblclick', deleteSavedRecipes);
+savedRecipesView.addEventListener('dblclick', deleteSavedRecipes);
 // recipeList.addEventListener('load', );
 
 //we need a button on the recipe page to save
 //eventHandlers:
 
 //
-function generateRecipes() {
-
-  let getRecipes = recipeRepository.recipes.map(recipe => {
-    console.log(recipe.name)
-    return recipe.name;
-  });
-
-  h3.innerText = getRecipes;
+function openRecipeDetail() {
+  // console.log(allRecipes)
+  allRecipes.forEach(recipe => {
+  createRecipe(recipe)
+  // recipeList.innerHTML(recipeCard);
+})
 }
-console.log(recipeRepository)
 
 
-console.log('Hello world');
+
 
 
 
@@ -86,6 +84,27 @@ console.log('Hello world');
 
 //Colby'space and Marianne
 
+function createRecipe(recipe) {
+  let randomizedRecipe = allRecipes[getRandomRecipe(allRecipes)]
+  console.log(randomizedRecipe)
+  recipeList.innerHTML += `<div class="recipe-card recipe-${randomizedRecipe.id}" id="recipe-${randomizedRecipe.id}">
+    <div class="recipe-image-box">
+      <img src=${randomizedRecipe.image} alt="recipe image" class="recipe-display-image">
+    </div>
+    <h3>${randomizedRecipe.name}</h3>
+
+    </div>`
+    return randomizedRecipe
+}
+
+
+function deleteSavedRecipes () {
+  user.removeRecipeFromList(recipeObject)
+}
+
+function getRandomRecipe(allRecipes) {
+  return Math.floor(Math.random() * allRecipes.length);
+};
 
 
 
@@ -125,57 +144,3 @@ console.log('Hello world');
 
 
 //Eddie's Space
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
