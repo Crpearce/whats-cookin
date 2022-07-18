@@ -6,7 +6,7 @@ class User {
     // console.log(1, this.allRecipes)
   }
 
-filterByTag(recipeCategory) {
+filterSavedByTag(recipeCategory) {
     let recipesByTag = [];
 
 const findByTag = this.savedRecipes.filter((recipe) => {
@@ -19,7 +19,41 @@ const findByTag = this.savedRecipes.filter((recipe) => {
 return recipesByTag   
 };
 
-filterByName(recipeName) {
+filterAllByTag(recipeCategory) {
+  let recipesByTag = [];
+  const findByTag = this.allRecipes.recipes.filter((recipe) => {
+    if(recipe.tags.includes(recipeCategory)) {
+    recipesByTag.push(recipe)
+    } 
+  })
+return recipesByTag   
+};
+
+
+// this works but has some bugs with lots of rrepeats/not refreshing the page after the search
+// filterAllByTag(recipeCategory) {
+//   let recipesByTag = [];
+// const findByTag = this.allRecipes.recipes.filter((recipe) => {
+// recipe.tags.forEach(tag => {
+//   if(tag === recipeCategory) {
+//     recipesByTag.push(recipe)
+//   }
+// })
+// });
+// return recipesByTag   
+// };
+
+filterAllByName(recipeName) {
+  let recipesByName = [];
+  const findByName = this.allRecipes.recipes.filter(recipe => {
+    if(recipe.name.toLowerCase().includes(recipeName.toLowerCase())){
+      recipesByName.push(recipe)
+    }
+  });
+return recipesByName
+};
+
+filterSavedRecipesByName(recipeName) {
     let recipesByName = [];
     const findByName = this.savedRecipes.filter(recipe => {
       if(recipe.name.toLowerCase().includes(recipeName.toLowerCase())){
@@ -28,6 +62,7 @@ filterByName(recipeName) {
     });
   return recipesByName
 };
+
 
 
 
