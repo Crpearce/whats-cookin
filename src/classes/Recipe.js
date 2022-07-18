@@ -50,7 +50,10 @@ class Recipe {
 
 
   provideRecipeInstructions() {
-    return this.instructions
+    let steps = this.instructions.map(step => {
+      return `Step ${step.number}: ${step.instruction}`
+    })
+    return steps
   };
 };
 

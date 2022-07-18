@@ -18,6 +18,8 @@ let allRecipes = recipeData.map(recipe => {
   return new Recipe(recipe, ingredientData);
 })
 
+
+
 const recipeRepository = new RecipeRepository(allRecipes);
 let user = null;
 
@@ -93,36 +95,56 @@ function createRecipe(recipe) {
   randomCounter++
   if (randomCounter <= 5) {
     let randomizedRecipe = allRecipes[getRandomRecipe(allRecipes)]
-    recipeList.innerHTML += `<div class="recipe-card recipe-${randomizedRecipe.id}" id="recipe-${randomizedRecipe.id}">
+    recipeList.innerHTML += `<div class="recipe-card" id="${randomizedRecipe.id}">
     <div class="recipe-image-box">
       <img src=${randomizedRecipe.image} alt="recipe image" class="recipe-display-image">
     </div>
     <h3>${randomizedRecipe.name}</h3>
-    <button class="view-recipe-button">View Recipe</button>
+    <button class="view-recipe-button id="recipe-${randomizedRecipe.id}">View Recipe</button>
     <button class="save-button">Save Recipe</button>
     <button class="delete-button hidden">Delete Recipe</button>
     </div>`
-    return randomizedRecipe
+    // return randomizedRecipe
   }
 }
 
+function viewRecipeDetails(event) {
+recipeList.innerHTML = ` `  
 
-function createRecipeIdeas(recipe) {
-  let randomizedRecipe = allRecipes
-  // if(randomizedRecipe !== recipe)
-  recipeIdeasView.innerHTML += `<div class="recipe-card recipe-${recipe.id}" id="recipe-${recipe.id}">
-    <div class="recipe-image-box">
-      <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
-    </div>
-    <h3>${recipe.name}</h3>
-    <button class="view-recipe-button">View Recipe</button>
-    <button class="save-button">Save Recipe</button>
-    <button class="delete-button hidden">Delete Recipe</button>
+for(var i = 0; i < allRecipes.length; i++){
+  if(allRecipes[i].id == event.target.closest(".recipe-card").id){
+        recipeList.innerHTML += `<h1>${allRecipes[i].name}</h1>`    
+    }
+  }
 
-    </div>`
-  return randomizedRecipe
-  //
-}
+for(var i = 0; i < allRecipes.length; i++){
+  if(allRecipes[i].id == event.target.closest(".recipe-card").id){    
+  let printCost = allRecipes[i].estimateIngredientCost();
+        recipeList.innerHTML += `<h3>COST $${printCost}</h3>`
+    }
+  }
+  for(var i = 0; i < allRecipes.length; i++){
+    if(allRecipes[i].id == event.target.closest(".recipe-card").id){
+     
+      let printDirections = allRecipes[i].provideRecipeInstructions();
+        printDirections.forEach(step => {
+        recipeList.innerHTML += `<h3>${step}</h3>`
+        }
+      )
+    }
+  }
+
+  for(var i = 0; i < allRecipes.length; i++){
+    if(allRecipes[i].id == event.target.closest(".recipe-card").id){   
+    let printIngredients = allRecipes[i].listIngredients();
+    printIngredients.forEach(ingredient => {
+          recipeList.innerHTML += `<h4>${ingredient}</h4>`
+          }
+        )
+      }
+    }
+};
+
 
 function showRecipeIdeas() {
   console.log(recipeTemplate.closest('recipeContainer'))
@@ -135,25 +157,6 @@ function showRecipeIdeas() {
 }
 
 
-function viewRecipeDetails(recipe) {
-  console.log(recipe)
-  if (event.target.id === viewRecipeButton.id) {
-    let recipeDisplay = recipeList.innerHTML += `
-    <h3>${recipe.name}</h3>
-    <div class="recipe-id" id="recipe-${recipe.id}">
-    <div class="recipe-image-box">
-      <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
-    </div>
-    <div class="recipe-ingredients"${recipe.ingredients}</div>
-    <div class="recipe-instructions"${recipe.instructions}</div>
-    <div class="recipe-tags"${recipe.tags}</div>
-    <button class="view-recipe-button hidden" id="recipe-${recipe.id}">View Recipe</button>
-    <button class="save-button">Save Recipe</button>
-    <button class="delete-button hidden">Delete Recipe</button>
-    </div>`
-    return recipeDisplay
-  }
-};
 //
 // function eliminateDuplicateRecipes(){
 //   let uniqueRecipes = [];
