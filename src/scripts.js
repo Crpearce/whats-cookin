@@ -21,7 +21,7 @@ let allRecipes = recipeData.map(recipe => {
 const recipeRepository = new RecipeRepository(allRecipes);
 let user = null;
 
-
+let randomCounter = 0;
 
 
 
@@ -46,43 +46,38 @@ let viewRecipeButton = document.getElementById('recipeContainer')
 
 
 
-
-
-
-
 //eventListeners:
 window.addEventListener('load', openRecipeDetail);
 ideasOptionButton.addEventListener('click', showRecipeIdeas);
+// document.addEventListener('click', function(event) {
+//   if (event.target && event.target.id == 'recipeTemplate') {
+//     viewRecipeButton()
+//   }
+// })
 viewRecipeButton.addEventListener('click', viewRecipeDetails);
 searchNameBar.addEventListener('input', searchAllRecipes)
 searchTagBar.addEventListener('input', filterAllRecipes)
+recipeIdeasView.addEventListener('click', viewRecipeDetails)
 
 // savedRecipesOptionButton.addEventListener('click', showSavedRecipes);
 // allRecipesContainer.addEventListener('click', openRecipeDetail);
 // savedRecipesView.addEventListener('dblclick', deleteSavedRecipes);
-// recipeList.addEventListener('load', );
+recipeList.addEventListener('click', viewRecipeDetails);
 
 //we need a button on the recipe page to save
 //eventHandlers:
 
 //
 function openRecipeDetail() {
-  if(user === null) {
-      user = new User(recipeRepository)
-    }
+  if (user === null) {
+    user = new User(recipeRepository)
+  }
   // console.log(allRecipes)
   allRecipes.forEach(recipe => {
-  createRecipe(recipe)
-  // recipeList.innerHTML(recipeCard);
-})
+    createRecipe(recipe)
+    // recipeList.innerHTML(recipeCard);
+  })
 }
-
-
-
-
-
-
-
 
 
 
@@ -95,8 +90,10 @@ function openRecipeDetail() {
 //Colby'space and Marianne
 
 function createRecipe(recipe) {
-  let randomizedRecipe = allRecipes[getRandomRecipe(allRecipes)]
-  recipeList.innerHTML += `<div class="recipe-card recipe-${randomizedRecipe.id}" id="recipe-${randomizedRecipe.id}">
+  randomCounter++
+  if (randomCounter <= 5) {
+    let randomizedRecipe = allRecipes[getRandomRecipe(allRecipes)]
+    recipeList.innerHTML += `<div class="recipe-card recipe-${randomizedRecipe.id}" id="recipe-${randomizedRecipe.id}">
     <div class="recipe-image-box">
       <img src=${randomizedRecipe.image} alt="recipe image" class="recipe-display-image">
     </div>
@@ -106,7 +103,9 @@ function createRecipe(recipe) {
     <button class="delete-button hidden">Delete Recipe</button>
     </div>`
     return randomizedRecipe
+  }
 }
+
 
 function createRecipeIdeas(recipe) {
   let randomizedRecipe = allRecipes
@@ -121,36 +120,39 @@ function createRecipeIdeas(recipe) {
     <button class="delete-button hidden">Delete Recipe</button>
 
     </div>`
-    return randomizedRecipe
+  return randomizedRecipe
   //
 }
 
-function showRecipeIdeas(){
-  console.log('test')
+function showRecipeIdeas() {
+  console.log(recipeTemplate.closest('recipeContainer'))
   allRecipes.forEach(recipe => {
-  createRecipeIdeas(recipe)
-  show(recipeIdeasView)
-  hide(recipeList)
-  hide(searchButtons)
-})
+    createRecipeIdeas(recipe)
+    show(recipeIdeasView)
+    hide(recipeList)
+    hide(searchButtons)
+  })
 }
 
 
-function viewRecipeDetails() {
-  let recipeDisplay = recipeContainer.innerHTML += `
+function viewRecipeDetails(recipe) {
+  console.log(recipe)
+  if (event.target.id === viewRecipeButton.id) {
+    let recipeDisplay = recipeList.innerHTML += `
     <h3>${recipe.name}</h3>
-    <div class="recipe-id recipe-${recipe.id}" id="recipe-${recipe.id}">
+    <div class="recipe-id" id="recipe-${recipe.id}">
     <div class="recipe-image-box">
       <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
     </div>
     <div class="recipe-ingredients"${recipe.ingredients}</div>
     <div class="recipe-instructions"${recipe.instructions}</div>
     <div class="recipe-tags"${recipe.tags}</div>
-    <button class="view-recipe-button hidden">View Recipe</button>
+    <button class="view-recipe-button hidden" id="recipe-${recipe.id}">View Recipe</button>
     <button class="save-button">Save Recipe</button>
     <button class="delete-button hidden">Delete Recipe</button>
     </div>`
     return recipeDisplay
+  }
 };
 //
 // function eliminateDuplicateRecipes(){
@@ -185,31 +187,6 @@ function hide(e) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //Eddie's Space
 function searchAllRecipes() {
   let recipeMatch = user.filterAllByName(searchNameBar.value)
@@ -225,8 +202,8 @@ function searchAllRecipes() {
       <button class="delete-button hidden">Delete Recipe</button>
 
       </div>`
-    })
-    return test
+  })
+  return test
 }
 
 function filterAllRecipes() {
@@ -243,6 +220,6 @@ function filterAllRecipes() {
       <button class="delete-button hidden">Delete Recipe</button>
 
       </div>`
-    })
-    return test1
+  })
+  return test1
 }
