@@ -19,7 +19,7 @@ let allRecipes = recipeData.map(recipe => {
 })
 
 const recipeRepository = new RecipeRepository(allRecipes);
-let user;
+let user = null;
 
 
 
@@ -30,8 +30,8 @@ let user;
 //query selectors:
 let ideasOptionButton = document.getElementById('userOptionIdeas');
 let savedRecipesOptionButton = document.getElementById('userOptionSavedRecipes');
-let searchNameButton = document.getElementById('query1');
-let searchTagButton = document.getElementById('query2');
+let searchNameBar = document.getElementById('query1');
+let searchTagBar = document.getElementById('query2');
 let recipeIdeasView = document.getElementById('recipeIdeasView');
 let savedRecipesView = document.getElementById('savedRecipesView');
 let recipeList = document.getElementById('recipeList');
@@ -54,6 +54,9 @@ let viewRecipeButton = document.getElementById('recipeContainer')
 window.addEventListener('load', openRecipeDetail);
 ideasOptionButton.addEventListener('click', showRecipeIdeas);
 viewRecipeButton.addEventListener('click', viewRecipeDetails);
+searchNameBar.addEventListener('input', searchAllRecipes)
+searchTagBar.addEventListener('input', filterAllRecipes)
+
 // savedRecipesOptionButton.addEventListener('click', showSavedRecipes);
 // allRecipesContainer.addEventListener('click', openRecipeDetail);
 // savedRecipesView.addEventListener('dblclick', deleteSavedRecipes);
@@ -64,6 +67,9 @@ viewRecipeButton.addEventListener('click', viewRecipeDetails);
 
 //
 function openRecipeDetail() {
+  if(user === null) {
+      user = new User(recipeRepository)
+    }
   // console.log(allRecipes)
   allRecipes.forEach(recipe => {
   createRecipe(recipe)
@@ -205,3 +211,38 @@ function hide(e) {
 
 
 //Eddie's Space
+function searchAllRecipes() {
+  let recipeMatch = user.filterAllByName(searchNameBar.value)
+  recipeList.innerHTML = ` `
+  let test = recipeMatch.forEach(recipe => {
+    recipeList.innerHTML += `<div class="recipe-card recipe-${recipe.id}" id="recipe-${recipe.id}">
+      <div class="recipe-image-box">
+        <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
+      </div>
+      <h3>${recipe.name}</h3>
+      <button class="view-recipe-button">View Recipe</button>
+      <button class="save-button">Save Recipe</button>
+      <button class="delete-button hidden">Delete Recipe</button>
+
+      </div>`
+    })
+    return test
+}
+
+function filterAllRecipes() {
+  let recipeMatch = user.filterAllByTag(searchTagBar.value)
+  recipeList.innerHTML = ` `
+  let test1 = recipeMatch.forEach(recipe => {
+    recipeList.innerHTML += `<div class="recipe-card recipe-${recipe.id}" id="recipe-${recipe.id}">
+      <div class="recipe-image-box">
+        <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
+      </div>
+      <h3>${recipe.name}</h3>
+      <button class="view-recipe-button">View Recipe</button>
+      <button class="save-button">Save Recipe</button>
+      <button class="delete-button hidden">Delete Recipe</button>
+
+      </div>`
+    })
+    return test1
+}
