@@ -39,6 +39,7 @@ let savedRecipesView = document.getElementById('savedRecipesView');
 let recipeList = document.getElementById('recipeList');
 let searchButtons = document.getElementById('searchButtons');
 let viewRecipeButton = document.getElementById('recipeContainer')
+let homeButton = document.getElementById('homePage')
 
 
 
@@ -56,6 +57,7 @@ ideasOptionButton.addEventListener('click', showRecipeIdeas);
 //     viewRecipeButton()
 //   }
 // })
+homeButton.addEventListener('click', showHomepage);
 viewRecipeButton.addEventListener('click', viewRecipeDetails);
 searchNameBar.addEventListener('input', searchAllRecipes)
 searchTagBar.addEventListener('input', filterAllRecipes)
@@ -104,28 +106,27 @@ function createRecipe(recipe) {
     <button class="save-button">Save Recipe</button>
     <button class="delete-button hidden">Delete Recipe</button>
     </div>`
-    // return randomizedRecipe
+     return randomizedRecipe
   }
 }
 
 function viewRecipeDetails(event) {
-recipeList.innerHTML = ` `  
-
+recipeList.innerHTML = ` `
 for(var i = 0; i < allRecipes.length; i++){
   if(allRecipes[i].id == event.target.closest(".recipe-card").id){
-        recipeList.innerHTML += `<h1>${allRecipes[i].name}</h1>`    
+        recipeList.innerHTML += `<h1>${allRecipes[i].name}</h1>`
     }
   }
 
 for(var i = 0; i < allRecipes.length; i++){
-  if(allRecipes[i].id == event.target.closest(".recipe-card").id){    
+  if(allRecipes[i].id == event.target.closest(".recipe-card").id){
   let printCost = allRecipes[i].estimateIngredientCost();
         recipeList.innerHTML += `<h3>COST $${printCost}</h3>`
     }
   }
   for(var i = 0; i < allRecipes.length; i++){
     if(allRecipes[i].id == event.target.closest(".recipe-card").id){
-     
+
       let printDirections = allRecipes[i].provideRecipeInstructions();
         printDirections.forEach(step => {
         recipeList.innerHTML += `<h3>${step}</h3>`
@@ -135,7 +136,7 @@ for(var i = 0; i < allRecipes.length; i++){
   }
 
   for(var i = 0; i < allRecipes.length; i++){
-    if(allRecipes[i].id == event.target.closest(".recipe-card").id){   
+    if(allRecipes[i].id == event.target.closest(".recipe-card").id){
     let printIngredients = allRecipes[i].listIngredients();
     printIngredients.forEach(ingredient => {
           recipeList.innerHTML += `<h4>${ingredient}</h4>`
@@ -145,14 +146,36 @@ for(var i = 0; i < allRecipes.length; i++){
     }
 };
 
+function createRecipeIdeas(recipe) {
+  let randomizedRecipe = allRecipes
+  // if(randomizedRecipe !== recipe)
+  recipeList.innerHTML += `<div class="recipe-card" id="${recipe.id}">
+    <div class="recipe-image-box">
+      <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
+    </div>
+    <h3>${recipe.name}</h3>
+    <button class="view-recipe-button">View Recipe</button>
+    <button class="save-button">Save Recipe</button>
+    <button class="delete-button hidden">Delete Recipe</button>
+    </div>`
+  return randomizedRecipe
+}
 
 function showRecipeIdeas() {
-  console.log(recipeTemplate.closest('recipeContainer'))
+  recipeList.innerHTML = ' '
   allRecipes.forEach(recipe => {
     createRecipeIdeas(recipe)
-    show(recipeIdeasView)
-    hide(recipeList)
-    hide(searchButtons)
+  })
+}
+
+function showHomepage(allRecipes) {
+  recipeList.innerHTML = ''
+    openRecipeDetail()
+  allRecipes.forEach(recipe => {
+    createRecipe(recipe)
+    show(recipeList)
+    hide(recipeIdeasView)
+    show(searchButtons)
   })
 }
 
