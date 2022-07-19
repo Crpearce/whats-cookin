@@ -1,62 +1,29 @@
 import './styles.css';
 import {fetchIngredientData, fetchRecipeData, fetchUserData} from './apiCalls';
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
 import './images/search-icon.svg'
 import './images/logo.png'
-// import '.images/calum-lewis-vA1L1jRTM70-unsplash.jpg'
 import User from '../src/classes/User';
 import Recipe from '../src/classes/Recipe';
 import RecipeRepository from '../src/classes/RecipeRepository';
-// import recipeData from '../src/data/sample-recipes';
-// import ingredientData from '../src/data/sample-ingredients';
-
-//stop propogation?? 
 
 //global variables:
 
-let allRecipes
-let recipeRepository
-//
-// let allRecipes = recipeData.map(recipe => {
-//   return new Recipe(recipe, ingredientData);
-// })
-//fetchIngredientData().then(data => console.log())
-
+let allRecipes;
+let recipeRepository;
 let user = null;
+let randomCounter = 0;
 
 Promise.all([fetchIngredientData(), fetchRecipeData(), fetchUserData()]).then(([ingredientData, recipeData, userData]) => {
-  console.log(ingredientData)
   allRecipes = recipeData.map(recipe => {
     return new Recipe(recipe, ingredientData);
   })
   recipeRepository = new RecipeRepository(allRecipes);
-  // fetchData();
-  if (user === null) {
-    user = new User(recipeRepository)
-  }
-  console.log(allRecipes)
+  user = new User(userData, recipeRepository); 
   allRecipes.forEach(recipe => {
     createRecipe(recipe)
-    // recipeList.innerHTML(recipeCard);
   })
-  console.log(allRecipes);
 })
-.then(openRecipeDetail())
-
-// let allRecipes = recipeData.map(recipe => {
-//   return new Recipe(recipe, ingredientData);
-// })
-
-
-
-// const recipeRepository = new RecipeRepository(allRecipes);
-// let user = null;
-let randomCounter = 0;
-
-
-
-
 
 //query selectors:
 let ideasOptionButton = document.getElementById('userOptionIdeas');
@@ -70,24 +37,9 @@ let searchButtons = document.getElementById('searchButtons');
 let viewRecipeButton = document.getElementById('recipeContainer')
 let homeButton = document.getElementById('homePage')
 
-
-
-
-
-
-
-
-
-
 //eventListeners:
-window.addEventListener('load', openRecipeDetail);
 document.getElementsByClassName('save-button')
 ideasOptionButton.addEventListener('click', showRecipeIdeas);
-// document.addEventListener('click', function(event) {
-//   if (event.target && event.target.id == 'recipeTemplate') {
-//     viewRecipeButton()
-//   }
-// })
 homeButton.addEventListener('click', showHomepage);
 // viewRecipeButton.addEventListener('click', viewRecipeDetails);
 searchNameBar.addEventListener('input', searchAllRecipes)
@@ -100,19 +52,8 @@ recipeList.addEventListener('click', viewRecipeListDetails);
 recipeList.addEventListener('click', saveRecipe);
 
 //we need a button on the recipe page to save
+
 //eventHandlers:
-
-
-function openRecipeDetail() {
-  if (user === null) {
-    user = new User(recipeRepository)
-  }
-//   allRecipes.forEach(recipe => {
-//     createRecipe(recipe)
-//   })
-}
-
-
 function createRecipe(recipe) {
   randomCounter++
   if (randomCounter <= 5) {
@@ -203,15 +144,15 @@ for(let i = 0; i < allRecipes.length; i++){
 };
 
 function createRecipeIdeas(recipe) {
-  // if(randomizedRecipe !== recipe)
+
   recipeIdeasView.innerHTML += `<div class="recipe-card" id="${recipe.id}">
     <div class="recipe-image-box">
       <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
     </div>
     <h3>${recipe.name}</h3>
-    <button class="view-recipe-button">View Recipe</button>
-    <button class="save-button"id="${recipe.id}">Save Recipe</button>
-    <button class="delete-button hidden">Delete Recipe</button>
+     <button class="view-recipe-button">View Recipe</button>
+      <button class="save-button"id="${recipe.id}">Save Recipe</button>
+      <button class="delete-button hidden">Delete Recipe</button>
     </div>`
 };
 
@@ -220,10 +161,8 @@ function saveRecipe(event) {
 
   event.target.closest(".save-button").id
   savedRecipesView.innerHTML += 'hi i am a saved recipe!'
-//   user.addRecipeToList()
-
+// SAVE for now... we will need this to make cards =>  user.addRecipeToList()
 };
-
 
 function showRecipeIdeas() {
   recipeIdeasView.innerHTML = ' '
@@ -252,30 +191,6 @@ function showSavedView() {
   show(savedRecipesView)
 };
 
-
-//
-// function eliminateDuplicateRecipes(){
-//   let uniqueRecipes = [];
-//   if(!uniqueRecipes.includes(recipe))
-//   uniqueRecipes.push(recipe)
-//
-// }
-// function deleteSavedRecipes () {
-//   user.removeRecipeFromList(recipeObject)
-// }
-
-function getRandomRecipe(allRecipes) {
-  return Math.floor(Math.random() * allRecipes.length);
-};
-
-function show(e) {
-  e.classList.remove('hidden')
-};
-
-function hide(e) {
-  e.classList.add('hidden')
-};
-
 function searchAllRecipes() {
   let recipeMatch = user.filterAllByName(searchNameBar.value)
   recipeList.innerHTML = ` `
@@ -285,10 +200,9 @@ function searchAllRecipes() {
         <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
       </div>
       <h3>${recipe.name}</h3>
-      <button class="view-recipe-button"id="${recipe.id}">View Recipe</button>
-      <button class="save-button">Save Recipe</button>
-      <button class="delete-button hidden">Delete Recipe</button>
-
+       <button class="view-recipe-button"id="${recipe.id}">View Recipe</button>
+        <button class="save-button">Save Recipe</button>
+       <button class="delete-button hidden">Delete Recipe</button>
       </div>`
   })
   return test
@@ -310,3 +224,16 @@ function filterAllRecipes() {
   });
   return test1
 };
+
+function getRandomRecipe(allRecipes) {
+  return Math.floor(Math.random() * allRecipes.length);
+};
+
+function show(e) {
+  e.classList.remove('hidden')
+};
+
+function hide(e) {
+  e.classList.add('hidden')
+};
+
