@@ -8,7 +8,6 @@ class Ingredient {
   findIngredientName() {
     return this.name
   }
-
 };
 
 export default Ingredient;

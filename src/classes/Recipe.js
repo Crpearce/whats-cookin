@@ -1,5 +1,3 @@
-import Ingredient from './Ingredient';
-
 class Recipe {
   constructor(recipe, ingredientData) {
     this.id = recipe.id;
@@ -9,7 +7,6 @@ class Recipe {
     this.name = recipe.name;
     this.tags = recipe.tags;
     this.ingredientList = ingredientData;
-    // console.log(this.ingredientList)
   };
   listIngredients() {
     let ingredientNames = [];
@@ -20,7 +17,6 @@ class Recipe {
           ingredientNames.push(ingredient.name)
         }
       })
-     console.log(ingredientNames)
     })
     return ingredientNames
   };
@@ -47,7 +43,6 @@ class Recipe {
   //    }
   //  })
   //  return estimatedCost.toFixed(2);
-
 
   provideRecipeInstructions() {
     let steps = this.instructions.map(step => {

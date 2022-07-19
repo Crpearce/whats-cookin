@@ -1,5 +1,8 @@
 class User {
-  constructor(recipeRepository) {
+  constructor(usersData, recipeRepository) {
+    this.name = usersData.name
+    this.id = usersData.id;
+    this.pantry = usersData.pantry
     this.savedRecipes = [];
     this.allRecipes = recipeRepository;
   };
@@ -46,7 +49,6 @@ class User {
     });
     return recipesByName
   };
-
 
 
   addRecipeToList(saveRecipeButton) {
