@@ -1,16 +1,46 @@
-# What's Cookin'? Starter Kit
+# What's Cookin'
 
-The details of this project are outlined in the <a href="https://frontend.turing.edu/projects/What%27sCookin-PartOne.html" target="\__blank">project spec</a>.
+## Abstract
+Ever wondered what to cook? Use this repo to help you discover some brand new recipes and be able to save them! This was a group project assigned by the [Turing School of Software and Design](https://turing.edu/). This was a recipe tracking application which utilized a variety of technologies, which are listed below. The project goals were to: implement ES6 classes that communicate to each other as needed, use object and array prototype methods to perform data manipulation, create a user interface that is easy to use and clearly displays information, implement a robust testing suite using TDD, and make network requests to retrieve data
+
+
+![What's Cookin' gif](https://user-images.githubusercontent.com/102000070/179655231-043f242a-cccc-415b-a5e1-ad9633338926.gif)
 
 ## Set Up
+- Clone down the Repo `git clone` https://github.com/turingschool/What-s-cookin--starter-kit-API
+  This API holds the data our project will fetch in order to populate the browser with info
+- In your terminal, `git clone`
+- Cd into your directory
+- Run `npm start` and open `localhost:8080` in your preferred browser
 
-1. Within your group, decide on one person to have the project repository on their Github account. This person will *fork* this repository - on the top right corner of the page, click the fork button.
-2. All group members should then clone down the forked repository (make sure that everyone is added as a collaborator as well). Since you don't want your project to be named "whats-cookin-starter-kit", add an optional argument after the repo url when cloning. The command should look like this: `git clone [remote-address] [what you want to name the repo]`.
-3. Once you have cloned the repo, change into the directory and install the project dependencies. Run `npm install` or `npm i` to install project dependencies.
-4. Run npm start in the terminal to see the HTML page (you should see some boilerplate HTML displayed on the page). `Control + C` is the command to stop running the local server. Closing the terminal without stopping the server first could allow the server to continue to run in the background and cause problems. This command is not specific to Webpack; make note of it for future use.
-5. Make sure both members of your team are collaborators on the forked repo.
-6. Do not run `npm audit fix --force`. This will update to the latest version of packages. We need to be using `webpack-dev-server@3.11.2` which is not the latest version. If you start to run into Webpack errors, first check that all group members are using the correct version.
+## Project Specs
+The project specs and rubric for What's Cookin' Part I can be found [here](https://frontend.turing.edu/projects/whats-cookin-part-one.html)
 
-## Testing
+## Technologies Used
+- Javascript
+- HTML
+- CSS
+- Mocha
+- Chai
+- Get & Fetch Requests
+- Webpack
+- GitHub & Git
 
-Mocha and chai are already set up, with a boilerplate test for you.
+## Challenges
+- TDD
+- Class Architecture
+- Event Delegation
+
+## Wins
+- Collaboration
+- API calls
+
+## Future Extensions
+- Save Feature- adding and removing recipes (this was something we were unable to fully implement)
+- What's Cookin' Part II
+
+## Contributors
+- Ali Nix [LinkedIn](https://www.linkedin.com/in/ali-nix-38b9b9126/) [GitHub](https://github.com/alinix1)
+- Colby Pearce [LinkedIn](https://www.linkedin.com/in/colby-pearce1/) [GitHub](https://github.com/Crpearce/whats-cookin)
+- Eddie Rodriguez [LinkedIn](https://www.linkedin.com/in/edward-rodriguez-1b497423b/) [GitHub](https://github.com/edjrodriguez)
+- Marianne Barton [LinkedIn](https://www.linkedin.com/in/marianne-barton-1307/) [GitHub](https://github.com/mhbarton)
