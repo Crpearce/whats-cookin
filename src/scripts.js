@@ -22,8 +22,6 @@ let allRecipes = recipeData.map(recipe => {
 
 const recipeRepository = new RecipeRepository(allRecipes);
 let user = null;
-
-
 let randomCounter = 0;
 
 
