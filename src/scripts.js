@@ -23,6 +23,7 @@ let allRecipes = recipeData.map(recipe => {
 const recipeRepository = new RecipeRepository(allRecipes);
 let user = null;
 
+
 let randomCounter = 0;
 
 
@@ -52,6 +53,7 @@ let homeButton = document.getElementById('homePage')
 
 //eventListeners:
 window.addEventListener('load', openRecipeDetail);
+document.getElementsByClassName('save-button')
 ideasOptionButton.addEventListener('click', showRecipeIdeas);
 // document.addEventListener('click', function(event) {
 //   if (event.target && event.target.id == 'recipeTemplate') {
@@ -137,7 +139,7 @@ for(let i = 0; i < allRecipes.length; i++){
 
 
 function viewRecipeListDetails(event) {
-// recipeList.innerHTML = ` `
+recipeList.innerHTML = ` `
 for(let i = 0; i < allRecipes.length; i++){
   if(allRecipes[i].id == event.target.closest(".view-recipe-button").id){
         recipeList.innerHTML += `<h1>${allRecipes[i].name}</h1>`
@@ -187,7 +189,6 @@ function createRecipeIdeas(recipe) {
 
 function saveRecipe(event) {
   event.target.closest(".save-button").id
-  console.log('test')
     savedRecipesView.innerHTML += 'hi i am a saved recipe!'
 //   user.addRecipeToList()
 
@@ -196,16 +197,17 @@ function saveRecipe(event) {
 
 function showRecipeIdeas() {
   recipeIdeasView.innerHTML = ' '
-  show(recipeIdeasView)
-  hide(recipeList)
+  show(recipeIdeasView);
+  hide(recipeList);
+  hide(savedRecipesView);
   allRecipes.forEach(recipe => {
     createRecipeIdeas(recipe)
-  })
+  });
 };
 
 function showHomepage() {
-  randomCounter = 5
-  // recipeList.innerHTML = ' '
+  randomCounter = 0
+  recipeList.innerHTML = ' '
   show(recipeList)
   hide(recipeIdeasView)
     allRecipes.forEach(recipe => {
