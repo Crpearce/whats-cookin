@@ -1,5 +1,5 @@
 import './styles.css';
-import apiCalls from './apiCalls';
+import {fetchIngredientData, fetchRecipeData, fetchUserData} from './apiCalls';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
 import './images/search-icon.svg'
@@ -8,20 +8,50 @@ import './images/logo.png'
 import User from '../src/classes/User';
 import Recipe from '../src/classes/Recipe';
 import RecipeRepository from '../src/classes/RecipeRepository';
-import recipeData from '../src/data/sample-recipes';
-import ingredientData from '../src/data/sample-ingredients';
+// import recipeData from '../src/data/sample-recipes';
+// import ingredientData from '../src/data/sample-ingredients';
 
+//stop propogation?? 
 
 //global variables:
 
-let allRecipes = recipeData.map(recipe => {
-  return new Recipe(recipe, ingredientData);
-})
+let allRecipes
+let recipeRepository
+//
+// let allRecipes = recipeData.map(recipe => {
+//   return new Recipe(recipe, ingredientData);
+// })
+//fetchIngredientData().then(data => console.log())
 
-
-
-const recipeRepository = new RecipeRepository(allRecipes);
 let user = null;
+
+Promise.all([fetchIngredientData(), fetchRecipeData(), fetchUserData()]).then(([ingredientData, recipeData, userData]) => {
+  console.log(ingredientData)
+  allRecipes = recipeData.map(recipe => {
+    return new Recipe(recipe, ingredientData);
+  })
+  recipeRepository = new RecipeRepository(allRecipes);
+  // fetchData();
+  if (user === null) {
+    user = new User(recipeRepository)
+  }
+  console.log(allRecipes)
+  allRecipes.forEach(recipe => {
+    createRecipe(recipe)
+    // recipeList.innerHTML(recipeCard);
+  })
+  console.log(allRecipes);
+})
+.then(openRecipeDetail())
+
+// let allRecipes = recipeData.map(recipe => {
+//   return new Recipe(recipe, ingredientData);
+// })
+
+
+
+// const recipeRepository = new RecipeRepository(allRecipes);
+// let user = null;
 let randomCounter = 0;
 
 
@@ -72,14 +102,14 @@ recipeList.addEventListener('click', saveRecipe);
 //we need a button on the recipe page to save
 //eventHandlers:
 
-//
+
 function openRecipeDetail() {
   if (user === null) {
     user = new User(recipeRepository)
   }
-  allRecipes.forEach(recipe => {
-    createRecipe(recipe)
-  })
+//   allRecipes.forEach(recipe => {
+//     createRecipe(recipe)
+//   })
 }
 
 
@@ -186,8 +216,10 @@ function createRecipeIdeas(recipe) {
 };
 
 function saveRecipe(event) {
+  event.stopPropagation()
+
   event.target.closest(".save-button").id
-    savedRecipesView.innerHTML += 'hi i am a saved recipe!'
+  savedRecipesView.innerHTML += 'hi i am a saved recipe!'
 //   user.addRecipeToList()
 
 };
