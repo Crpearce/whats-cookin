@@ -10,7 +10,7 @@ class User {
   filterSavedByTag(recipeCategory) {
     let recipesByTag = [];
 
-    const findByTag = this.savedRecipes.filter((recipe) => {
+    this.savedRecipes.filter((recipe) => {
       recipe.tags.forEach(tag => {
         if (tag === recipeCategory) {
           recipesByTag.push(recipe)
@@ -22,8 +22,8 @@ class User {
 
   filterAllByTag(recipeCategory) {
     let recipesByTag = [];
-    const findByTag = this.allRecipes.recipes.filter((recipe) => {
-      if (recipe.tags.includes(recipeCategory)) {
+    this.allRecipes.recipes.filter((recipe) => {
+      if (recipe.tags.includes(recipeCategory.toLowerCase())) {
         recipesByTag.push(recipe)
       }
     })
@@ -32,7 +32,7 @@ class User {
 
   filterAllByName(recipeName) {
     let recipesByName = [];
-    const findByName = this.allRecipes.recipes.filter(recipe => {
+   this.allRecipes.recipes.filter(recipe => {
       if (recipe.name.toLowerCase().includes(recipeName.toLowerCase())) {
         recipesByName.push(recipe)
       }
@@ -42,7 +42,7 @@ class User {
 
   filterSavedRecipesByName(recipeName) {
     let recipesByName = [];
-    const findByName = this.savedRecipes.filter(recipe => {
+    this.savedRecipes.filter(recipe => {
       if (recipe.name.toLowerCase().includes(recipeName.toLowerCase())) {
         recipesByName.push(recipe)
       }
@@ -51,7 +51,7 @@ class User {
   };
 
 
-  addRecipeToList(saveRecipeButton) {
+  addRecipeToCookbook(saveRecipeButton) {
     let userSelectedRecipe = this.allRecipes.pickRecipeName(saveRecipeButton)
     userSelectedRecipe.forEach(recipe => {
       if (!this.savedRecipes.includes(recipe)) {

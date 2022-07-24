@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner&display=swap" rel="stylesheet">
-    <title>What's Cookin'</title>
+     <title class="title">What's Cookin'</title> 
   </head>
   <body>
     <nav class="navbar-fixed-top" id="navigationBar">
@@ -15,34 +15,46 @@
         <section class="navbar-options" id="navigationOptions">
           <ul class="navigation" id="navigation">
             <button class="user-options" id="homePage">Home</button>
-            <button class="user-options" id="userOptionIdeas">Get Some Ideas!</button>
-            <button class="user-options" id="savedRecipesButton">View Your Saved Recipes</button>
+            <button class="user-options" id="getIdeas">Get Some Ideas!</button>
+            <button class="user-options" id="goToCookBook">View Your Cookbook</button>
           </ul>
+        </section>
+        <section class="search-buttons" id="searchButtons">
+          <form accept-charset="">
+          <button class="search-name"><img src="./images/search-icon.svg"></button>
+            <input class="query1" type= "text" id="searchNameBar" name="search by name" placeholder="Search by Name">
+          </form>
+        <span> -- OR -- </span>
+        <form accept-charset="">
+        <button class="search-tag"><img src="./images/search-icon.svg"></button>
+          <input class="query2" type= "text" id="searchTagBar" name="search by tag" placeholder="Search by Category">
+        </form>
         </section>
       </div>
     </nav>
     <section class="view main-view">
-      <h1>What's Cookin'</h1>
-      <section class="search-buttons" id="searchButtons">
-        <form accept-charset="">
-        <button class="search-name"><img src="./images/search-icon.svg"></button>
-          <input type= "text" id="query1" name="search by name" placeholder="Search by Name">
-        </form>
-      <span> -- OR -- </span>
-      <form accept-charset="">
-      <button class="search-tag"><img src="./images/search-icon.svg"></button>
-        <input type= "text" id="query2" name="search by tag" placeholder="Search by Category">
-      </form>
+      <section class="title-container" id="titleBanner" >
+        <h1>What's Cookin'</h1>
       </section>
       <section class="recipe-list-container" id="recipeList">
       </section>
-      <section class="recipe-master-container" id="recipeContainer">
-        <section class="recipe-template-container" id="recipeTemplate">
+      <!-- <section class="recipe-master-container" id="recipeContainer"> -->
+        <!-- <section class="recipe-template-container" id="recipeTemplate"> -->
         </section>
       </section>
     </section>
-    <section class="view recipe-ideas-view hidden" id="recipeIdeasView"></section> -->
-    <section class="view saved-recipes-view hidden" id="savedRecipesView"></section>
+    <section class="view recipe-ideas-view hidden" id="getIdeasView">
+      
+    </section>
+    <section class="cook-Book-Container hidden" id="cookBookContainer">
+      <section class="cookbook-container" id="yourCookbook" >
+        <h1>Your Cookbook</h1>
+      </section>
+      <section class="saved-recipe-details-view hidden" id="savedRecipeDetailsView"></section>
+      <section class="view saved-recipes-view" id="savedRecipeCards">
+        <h2 class="empty-cook-book" id="emptyCookBookMessage"> You haven't added anything to your cookbook yet!  Search for recipes or click "Get Some Ideas!" above </h2> 
+      </section>
+    </section>   
   </body>
   <script src="bundle.js"></script>
 </html>

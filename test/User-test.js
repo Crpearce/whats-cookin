@@ -188,17 +188,17 @@ describe('User', () => {
       });
 
       it('should add recipes to my saved recipes', () => {
-        user.addRecipeToList('pork')
-        user.addRecipeToList('Wing')
+        user.addRecipeToCookbook('pork')
+        user.addRecipeToCookbook('Wing')
 
         expect(user.savedRecipes).to.deep.equal([recipe2, recipe3])
       });
 
       it('should remove recipes from my saved recipes', () => {
-        user.addRecipeToList('pork')
-        user.addRecipeToList('Wing')
-        user.addRecipeToList('Wing')
-        user.addRecipeToList('Wing')
+        user.addRecipeToCookbook('pork')
+        user.addRecipeToCookbook('Wing')
+        user.addRecipeToCookbook('Wing')
+        user.addRecipeToCookbook('Wing')
      
         expect(user.savedRecipes).to.deep.equal([recipe2, recipe3])
 
@@ -210,8 +210,8 @@ describe('User', () => {
 
       it('should filter a recipe by tag', () =>  {
 
-        user.addRecipeToList('wing')
-        user.addRecipeToList('pork')
+        user.addRecipeToCookbook('wing')
+        user.addRecipeToCookbook('pork')
       
        expect(user.filterAllByTag('sauce')).to.deep.equal([recipe3])
        expect(user.filterAllByTag('lunch')).to.deep.equal([recipe2])
@@ -220,7 +220,7 @@ describe('User', () => {
 
       it('should filter a recipe by name', () =>  {
        
-      user.addRecipeToList('cookie')
+      user.addRecipeToCookbook('cookie')
        expect(user.filterAllByName('cookie')).to.deep.equal([recipe1])
       });
 });
