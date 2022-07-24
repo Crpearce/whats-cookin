@@ -10,7 +10,7 @@ class User {
   filterSavedByTag(recipeCategory) {
     let recipesByTag = [];
 
-    const findByTag = this.savedRecipes.filter((recipe) => {
+    this.savedRecipes.filter((recipe) => {
       recipe.tags.forEach(tag => {
         if (tag === recipeCategory) {
           recipesByTag.push(recipe)
@@ -22,8 +22,8 @@ class User {
 
   filterAllByTag(recipeCategory) {
     let recipesByTag = [];
-    const findByTag = this.allRecipes.recipes.filter((recipe) => {
-      if (recipe.tags.includes(recipeCategory)) {
+    this.allRecipes.recipes.filter((recipe) => {
+      if (recipe.tags.includes(recipeCategory.toLowerCase())) {
         recipesByTag.push(recipe)
       }
     })
@@ -32,7 +32,7 @@ class User {
 
   filterAllByName(recipeName) {
     let recipesByName = [];
-    const findByName = this.allRecipes.recipes.filter(recipe => {
+   this.allRecipes.recipes.filter(recipe => {
       if (recipe.name.toLowerCase().includes(recipeName.toLowerCase())) {
         recipesByName.push(recipe)
       }
@@ -42,7 +42,7 @@ class User {
 
   filterSavedRecipesByName(recipeName) {
     let recipesByName = [];
-    const findByName = this.savedRecipes.filter(recipe => {
+    this.savedRecipes.filter(recipe => {
       if (recipe.name.toLowerCase().includes(recipeName.toLowerCase())) {
         recipesByName.push(recipe)
       }
@@ -51,14 +51,38 @@ class User {
   };
 
 
-  addRecipeToList(saveRecipeButton) {
+  addRecipeToCookbook(saveRecipeButton) {
     let userSelectedRecipe = this.allRecipes.pickRecipeName(saveRecipeButton)
     userSelectedRecipe.forEach(recipe => {
       if (!this.savedRecipes.includes(recipe)) {
         this.savedRecipes.push(recipe)
+        this.renderCookBookCard(recipe)
       }
     })
   };
+
+  renderCookBookCard(recipe) {
+    console.log(recipe)
+    savedRecipeCards.innerHTML += `
+        <div class="recipe-card" id="${recipe.id}-recipeCOOKBOOK-card" data-id="${recipe.id}">
+          <div class="recipe-image-box">
+            <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
+          </div>
+          <h3>${recipe.name}</h3>
+            <button class="view-recipe-button" id="${recipe.id}-view-recipeCOOKBOOK-button" data-id="${recipe.id}">View Recipe</button>
+            <button class="delete-button" id="${recipe.id}-delete-recipe-button" data-id="${recipe.id}">Delete</button>
+        </div>`
+  
+      // this.attachEventListenerToNewElement(`${recipe.id}-view-recipeCOOKBOOK-button`, 'click', viewCookBookRecipeDetails)    
+      // this.attachEventListenerToNewElement(`${recipe.id}-delete-recipe-button`, 'click', deleteRecipe)
+  }
+
+  // attachEventListenerToNewElement(id, button, callbackFunction){
+  //   setTimeout(()=> {
+  //     document.getElementById(id).addEventListener(button, callbackFunction)
+  //   }, 10)
+  // }
+
 
   removeRecipeFromList(recipeObject) {
     let getIndex = this.savedRecipes.indexOf(recipeObject);

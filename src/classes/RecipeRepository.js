@@ -3,11 +3,11 @@ class RecipeRepository {
      this.recipes = recipes
   };
 
-  pickRecipeTag(userTag) {
+  pickRecipeTag(userSelection) {
     let recipesByTag = [];
     const findByTag = this.recipes.filter((recipe) => {
     recipe.tags.forEach(tag => {
-      if(tag === userTag) {
+      if(tag === userSelection) {
         recipesByTag.push(recipe)
       }
     })
@@ -15,10 +15,10 @@ class RecipeRepository {
   return recipesByTag
 };
 
-  pickRecipeName(userName) {
+  pickRecipeName(userSelection) {
     let recipesByName = [];
     const findByName = this.recipes.filter(recipe => {
-      if(recipe.name.toLowerCase().includes(userName.toLowerCase())){
+      if(recipe.name.toLowerCase().includes(userSelection.toLowerCase())){
         recipesByName.push(recipe)
       }
    });
