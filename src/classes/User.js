@@ -7,6 +7,7 @@ class User {
     this.pantry = usersData.pantry
     this.savedRecipes = [];
     this.allRecipes = recipeRepository;
+
   };
 
   filterSavedByTag(recipeCategory) {
@@ -76,20 +77,6 @@ class User {
             <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
           </div>
           <h3>${recipe.name}</h3>
-            <button class="view-recipeCOOKBOOK-button" id="${recipe.id}" >View Recipe</button>
-            <button class="delete-button" id="${Date.now()}">Delete</button>
-        </div>`;
-        attachEventListenerToNewElement(`${Date.now()}`, 'click', deleteRecipe) 
-        attachEventListenerToNewElement(`${recipe.id}`, 'click', viewCookBookRecipeDetails) 
-        document.querySelectorAll('#cookBookCardContainer');
-        savedRecipeCards.appendChild(cookBookCard);
-
-
-    //  addedRecipeCard.forEach(recipeCard => {
-    //   console.log('HIIII', recipeCard)
-    //    recipeCard.addEventListener('click', viewCookBookRecipeDetails)
-    //  })
-     
   }
 
   

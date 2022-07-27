@@ -6,6 +6,7 @@ import './images/logo.png'
 import User from '../src/classes/User';
 import Recipe from '../src/classes/Recipe';
 import RecipeRepository from '../src/classes/RecipeRepository';
+import Pantry from '../src/classes/Pantry';
 
 //global variables:
 let recipeMatch;
@@ -22,7 +23,8 @@ Promise.all([fetchIngredientData(), fetchRecipeData(), fetchUserData()])
   })
   recipeRepository = new RecipeRepository(allRecipes);
   user = new User(userData[0], recipeRepository);
-  allRecipes.forEach(recipe => { 
+  console.log(user)
+  allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
   });
   hide(homeButton)
@@ -76,7 +78,6 @@ function createRecipeCard(recipe) {
   };
 };
 
-
 function renderRecipeCard(recipe) {
   homeRecipeList.innerHTML += `
       <div class="recipe-card" id="${recipe.id}-recipe-card" data-id="${recipe.id}">
@@ -88,7 +89,7 @@ function renderRecipeCard(recipe) {
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
 
-    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)     
+    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)
     attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
 }
 
@@ -103,10 +104,9 @@ function renderAllRecipeCards(recipe) {
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
 
-    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)     
+    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)
     attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
 }
-
 
 function viewRecipeDetails(event) {
   show(goToCookBook)
@@ -187,19 +187,6 @@ function saveRecipe(event) {
   hide(emptyCookBookMessage)
   recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.dataset.id)
   user.addRecipeToCookbook(recipeMatch.name)
-};
-
-function deleteRecipe(event) {
-  event.preventDefault()
-  recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.id)
-  user.removeRecipeFromList(recipeMatch) 
-  let removeRecipeCard = event.path[2]
-  removeRecipeCard.remove()
-  console.log('Remove target recipe from saved recipes', user)
-  if(user.savedRecipes.length === 0){
-    show(emptyCookBookMessage)
-  }
-  
 };
 
 function showRecipeIdeas() {
