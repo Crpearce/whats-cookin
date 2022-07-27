@@ -77,16 +77,14 @@ class User {
             <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
           </div>
           <h3>${recipe.name}</h3>
+          <button class="view-recipeCOOKBOOK-button" id="${recipe.id}">View Recipe</button>
+          <button class="delete-button" id="${Date.now()}">Delete</button>
+        </div>`;
+        attachEventListenerToNewElement(`${Date.now()}`, 'click', deleteRecipe)
+        attachEventListenerToNewElement(`${recipe.id}`, 'click', viewCookBookRecipeDetails)
+        document.querySelectorAll('#cookBookCardContainer');
+        savedRecipeCards.appendChild(cookBookCard)
   }
-
-  
-
-  // attachEventListenerToNewElement(id, button, callbackFunction){
-  //   setTimeout(()=> {
-  //     document.getElementById(id).addEventListener(button, callbackFunction)
-  //   }, 10)
-  // }
-
 
   removeRecipeFromList(recipeObject) {
     let getIndex = this.savedRecipes.indexOf(recipeObject);
