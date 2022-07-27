@@ -5,6 +5,7 @@ class User {
     this.pantry = usersData.pantry
     this.savedRecipes = [];
     this.allRecipes = recipeRepository;
+
   };
 
   filterSavedByTag(recipeCategory) {
@@ -72,8 +73,8 @@ class User {
             <button class="view-recipe-button" id="${recipe.id}-view-recipeCOOKBOOK-button" data-id="${recipe.id}">View Recipe</button>
             <button class="delete-button" id="${recipe.id}-delete-recipe-button" data-id="${recipe.id}">Delete</button>
         </div>`
-  
-      // this.attachEventListenerToNewElement(`${recipe.id}-view-recipeCOOKBOOK-button`, 'click', viewCookBookRecipeDetails)    
+
+      // this.attachEventListenerToNewElement(`${recipe.id}-view-recipeCOOKBOOK-button`, 'click', viewCookBookRecipeDetails)
       // this.attachEventListenerToNewElement(`${recipe.id}-delete-recipe-button`, 'click', deleteRecipe)
   }
 
