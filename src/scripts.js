@@ -21,7 +21,7 @@ Promise.all([fetchIngredientData(), fetchRecipeData(), fetchUserData()]).then(([
   })
   recipeRepository = new RecipeRepository(allRecipes);
   user = new User(userData[0], recipeRepository);
-  allRecipes.forEach(recipe => { 
+  allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
   });
   hide(homeButton)
@@ -92,7 +92,7 @@ function createRecipeCard(recipe) {
 //       </div>`
 
 //     attachEventListenerToNewElement(saveButtonId, 'click', saveRecipe)
-//     attachEventListenerToNewElement(viewButtonId, 'click', viewRecipeDetails)     
+//     attachEventListenerToNewElement(viewButtonId, 'click', viewRecipeDetails)
 // }
 
 
@@ -107,7 +107,7 @@ function renderRecipeCard(recipe) {
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
 
-    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)     
+    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)
     attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
 }
 
@@ -125,12 +125,12 @@ function renderAllRecipeCards(recipe) {
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
 
-    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)     
+    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)
     attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
 }
 
 function addToCookBook(recipe) {
-    attachEventListenerToNewElement(`${recipe.id}-view-recipeCOOKBOOK-button`, 'click', viewCookBookRecipeDetails)    
+    attachEventListenerToNewElement(`${recipe.id}-view-recipeCOOKBOOK-button`, 'click', viewCookBookRecipeDetails)
     attachEventListenerToNewElement(`${recipe.id}-delete-recipe-button`, 'click', deleteRecipe)
 }
 
@@ -198,6 +198,10 @@ function renderRecipeDetails(recipeMatch) {
   });
 };
 
+function renderErrorMessage(message) {
+  homeRecipeList.innerHTML += `<h2>${message}</h2>`
+}
+
 function viewCookBookRecipeDetails(event) {
   hide(savedRecipeCards)
   hide(getIdeasView)
@@ -234,7 +238,7 @@ function saveRecipe(event) {
   recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.dataset.id)
   user.addRecipeToCookbook(recipeMatch.name)
   addToCookBook(recipeMatch)
-  
+
 
   // const id = event.target.dataset.id
 };
@@ -242,7 +246,7 @@ function saveRecipe(event) {
 function deleteRecipe(event) {
 
   recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.dataset.id)
-  user.removeRecipeFromList(recipeMatch) 
+  user.removeRecipeFromList(recipeMatch)
   console.log('after', user)
 };
 
@@ -309,19 +313,25 @@ function showCookBook() {
 function searchAllRecipes() {
   let recipeMatch = user.filterAllByName(searchNameBar.value)
   homeRecipeList.innerHTML = ` `
-  let foundRecipes = recipeMatch.forEach(recipe => {
-    renderRecipeCard(recipe)
-  })
-  return foundRecipes
+  if(recipeMatch.length === 0) {
+    renderErrorMessage('No recipes found')
+  } else {
+    recipeMatch.forEach(recipe => {
+      renderRecipeCard(recipe)
+    })
+  }
 };
 
 function filterAllRecipes() {
   let recipeMatch = user.filterAllByTag(searchTagBar.value)
   homeRecipeList.innerHTML = ` `
-  let foundRecipes = recipeMatch.forEach(recipe => {
-    renderRecipeCard(recipe)
-  });
-  return foundRecipes
+  if(recipeMatch.length === 0) {
+    renderErrorMessage('No recipes found')
+  } else {
+    recipeMatch.forEach(recipe => {
+      renderRecipeCard(recipe)
+    })
+  }
 };
 
 function getRandomRecipe(allRecipes) {
