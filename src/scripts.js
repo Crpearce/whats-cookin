@@ -1,5 +1,5 @@
 import './styles.css';
-import { fetchIngredientData,fetchRecipeData,fetchUserData } from './apiCalls';
+import { fetchData } from './apiCalls';
 import './images/turing-logo.png'
 import './images/search-icon.svg'
 import './images/logo.png'
@@ -16,13 +16,13 @@ let user;
 let randomCounter = 0;
 
 // fetch promise
-Promise.all([fetchIngredientData(), fetchRecipeData(), fetchUserData()])
-.then(([ingredientData, recipeData, userData]) => {
-  allRecipes = recipeData.map(recipe => {
-    return new Recipe(recipe, ingredientData);
+Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
+.then(([ingredientObj, recipeObj, userObj]) => {
+  allRecipes = recipeObj.recipeData.map(recipe => {
+    return new Recipe(recipe, ingredientObj.ingredientsData);
   })
   recipeRepository = new RecipeRepository(allRecipes);
-  user = new User(userData[0], recipeRepository);
+  user = new User(userObj.usersData[0], recipeRepository);
   console.log(user)
   allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
@@ -62,11 +62,14 @@ goToCookBook.addEventListener('click', showCookBook);
 // viewRecipeButton.addEventListener('click', viewRecipeDetails);
 // allRecipesContainer.addEventListener('click', openRecipeDetail);
 // savedRecipeCards.addEventListener('dblclick', deleteSavedRecipes);
-
 function attachEventListenerToNewElement(id, button, callbackFunction){
   setTimeout(()=> {
    document.getElementById(id).addEventListener(button, callbackFunction)
   }, 10)
+}
+
+function renderErrorMessage(message) {
+  homeRecipeList.innerHTML += `<h2>${message}</h2>`
 }
 
 //eventHandlers:
@@ -190,15 +193,36 @@ function saveRecipe(event) {
 };
 
 function deleteRecipe(event) {
-  console.log('2after delete' , user)
+  console.log('2 after delete', user)
   event.preventDefault()
   recipeMatch = allRecipes.find((recipe)=> recipe.id == event.target.id)
   user.removeRecipeFromList(recipeMatch)
   let removeRecipeCard = event.path[2]
   removeRecipeCard.remove()
-  if(user.savedRecipes === 0) {
+  if(user.savedRecipes.length === 0) {
     show(emptyCookBookMessage)
   }
+}
+
+function renderCookBookCard(recipe) {
+  // debugger
+  console.log(recipe)
+  let cookBookCard = document.createElement('figure');
+  cookBookCard.classList.add('cook-book-card-container');
+  cookBookCard.setAttribute('id', `cookBookCardContainer`);
+  cookBookCard.innerHTML = `
+      <div class="recipe-card" id="${recipe.id}-recipeCOOKBOOK-card" data-id="${recipe.id}">
+        <div class="recipe-image-box">
+          <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
+        </div>
+        <h3>${recipe.name}</h3>
+        <button class="view-recipeCOOKBOOK-button" id="${recipe.id}">View Recipe</button>
+        <button class="delete-button" id="${Date.now()}">Delete</button>
+      </div>`;
+      attachEventListenerToNewElement(`${Date.now()}`, 'click', deleteRecipe)
+      attachEventListenerToNewElement(`${recipe.id}`, 'click', viewCookBookRecipeDetails)
+      document.querySelectorAll('#cookBookCardContainer');
+      savedRecipeCards.appendChild(cookBookCard)
 }
 
 function showRecipeIdeas() {
@@ -264,19 +288,25 @@ function showCookBook() {
 function searchAllRecipes() {
   let recipeMatch = user.filterAllByName(searchNameBar.value)
   homeRecipeList.innerHTML = ` `
-  let foundRecipes = recipeMatch.forEach(recipe => {
-    renderRecipeCard(recipe)
-  })
-  return foundRecipes
+  if(recipeMatch.length === 0) {
+    renderErrorMessage('No recipes found')
+  } else {
+    recipeMatch.forEach(recipe => {
+      renderRecipeCard(recipe)
+    })
+  }
 };
 
 function filterAllRecipes() {
   let recipeMatch = user.filterAllByTag(searchTagBar.value)
   homeRecipeList.innerHTML = ` `
-  let foundRecipes = recipeMatch.forEach(recipe => {
-    renderRecipeCard(recipe)
-  });
-  return foundRecipes
+  if(recipeMatch.length === 0) {
+    renderErrorMessage('No recipes found')
+  } else {
+    recipeMatch.forEach(recipe => {
+      renderRecipeCard(recipe)
+    })
+  }
 };
 
 function getRandomRecipe(allRecipes) {
@@ -291,4 +321,4 @@ function hide(e) {
   e.classList.add('hidden')
 };
 
-export {viewCookBookRecipeDetails , deleteRecipe, attachEventListenerToNewElement}
+export {viewCookBookRecipeDetails , deleteRecipe, attachEventListenerToNewElement, renderCookBookCard}

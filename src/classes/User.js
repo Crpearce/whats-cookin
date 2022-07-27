@@ -1,4 +1,4 @@
-import { viewCookBookRecipeDetails, deleteRecipe, attachEventListenerToNewElement } from '../scripts';
+import { renderCookBookCard } from '../scripts';
 
 class User {
   constructor(usersData, recipeRepository) {
@@ -10,9 +10,9 @@ class User {
 
   };
 
+//not hooked up to anything at the moment
   filterSavedByTag(recipeCategory) {
     let recipesByTag = [];
-
     this.savedRecipes.filter((recipe) => {
       recipe.tags.forEach(tag => {
         if (tag === recipeCategory) {
@@ -23,6 +23,7 @@ class User {
     return recipesByTag
   };
 
+///Eddie working on this
   filterAllByTag(recipeCategory) {
     let recipesByTag = [];
     this.allRecipes.recipes.filter((recipe) => {
@@ -33,6 +34,7 @@ class User {
     return recipesByTag
   };
 
+//Eddie Working on this
   filterAllByName(recipeName) {
     let recipesByName = [];
    this.allRecipes.recipes.filter(recipe => {
@@ -43,6 +45,7 @@ class User {
     return recipesByName
   };
 
+//not hooked up to anything at the moment
   filterSavedRecipesByName(recipeName) {
     let recipesByName = [];
     this.savedRecipes.filter(recipe => {
@@ -55,42 +58,73 @@ class User {
 
 
   addRecipeToCookbook(saveRecipeButton) {
-    // debugger
     let userSelectedRecipe = this.allRecipes.pickRecipeName(saveRecipeButton)
     userSelectedRecipe.forEach(recipe => {
       if (!this.savedRecipes.includes(recipe)) {
         this.savedRecipes.push(recipe)
-        this.renderCookBookCard(recipe)
+        renderCookBookCard(recipe)
       }
     })
   };
 
-  renderCookBookCard(recipe) {
-    // debugger
-    console.log(recipe)
-    let cookBookCard = document.createElement('figure');
-    cookBookCard.classList.add('cook-book-card-container');
-    cookBookCard.setAttribute('id', `cookBookCardContainer`);
-    cookBookCard.innerHTML = `
-        <div class="recipe-card" id="${recipe.id}-recipeCOOKBOOK-card" data-id="${recipe.id}">
-          <div class="recipe-image-box">
-            <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
-          </div>
-          <h3>${recipe.name}</h3>
-          <button class="view-recipeCOOKBOOK-button" id="${recipe.id}">View Recipe</button>
-          <button class="delete-button" id="${Date.now()}">Delete</button>
-        </div>`;
-        attachEventListenerToNewElement(`${Date.now()}`, 'click', deleteRecipe)
-        attachEventListenerToNewElement(`${recipe.id}`, 'click', viewCookBookRecipeDetails)
-        document.querySelectorAll('#cookBookCardContainer');
-        savedRecipeCards.appendChild(cookBookCard)
-  }
 
   removeRecipeFromList(recipeObject) {
     let getIndex = this.savedRecipes.indexOf(recipeObject);
     this.savedRecipes.splice(getIndex, 1);
   };
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Colby and Marianne
+
+
+
+
+
+
+
 
 
 export default User;
