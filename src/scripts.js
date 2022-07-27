@@ -189,6 +189,18 @@ function saveRecipe(event) {
   user.addRecipeToCookbook(recipeMatch.name)
 };
 
+function deleteRecipe(event) {
+  console.log('2after delete' , user)
+  event.preventDefault()
+  recipeMatch = allRecipes.find((recipe)=> recipe.id == event.target.id)
+  user.removeRecipeFromList(recipeMatch)
+  let removeRecipeCard = event.path[2]
+  removeRecipeCard.remove()
+  if(user.savedRecipes === 0) {
+    show(emptyCookBookMessage)
+  }
+}
+
 function showRecipeIdeas() {
   searchNameBar.value = null;
   searchTagBar.value = null;
