@@ -62,7 +62,9 @@ goToCookBook.addEventListener('click', showCookBook);
 // savedRecipeCards.addEventListener('dblclick', deleteSavedRecipes);
 
 function attachEventListenerToNewElement(id, button, callbackFunction){
-    document.getElementById(id).addEventListener(button, callbackFunction)
+  setTimeout(()=> {
+   document.getElementById(id).addEventListener(button, callbackFunction)
+  }, 10)
 }
 
 //eventHandlers:
@@ -85,10 +87,9 @@ function renderRecipeCard(recipe) {
           <button class="view-recipe-button" id="${recipe.id}-view-recipe-button" data-id="${recipe.id}">View Recipe</button>
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
-      setTimeout(()=> {
-        attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)     
-        attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
-      }, 10)
+
+    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)     
+    attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
 }
 
 function renderAllRecipeCards(recipe) {
@@ -101,10 +102,9 @@ function renderAllRecipeCards(recipe) {
           <button class="view-recipe-button" id="${recipe.id}-view-recipe-button" data-id="${recipe.id}">View Recipe</button>
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
-      setTimeout(()=> {
-        attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)     
-        attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
-      }, 10)
+
+    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)     
+    attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
 }
 
 
@@ -132,11 +132,7 @@ function renderRecipeDetails(recipeMatch) {
   homeRecipeList.innerHTML += `
   <h1>${recipeMatch.name}    <button class="save-button" id="${recipeMatch.id}-save-recipe-button" data-id="${recipeMatch.id}">Save To Cookbook</button></h1>
   `
-  setTimeout(()=> {
-    attachEventListenerToNewElement(`${recipeMatch.id}-save-recipe-button`, 'click', saveRecipe)
-  }, 10)
-
-
+  attachEventListenerToNewElement(`${recipeMatch.id}-save-recipe-button`, 'click', saveRecipe)
   let printCost = recipeMatch.estimateIngredientCost();
   homeRecipeList.innerHTML += `<h3>COST $${printCost}</h3>`
   homeRecipeList.innerHTML += '<h1> Directions </h1>'
@@ -159,6 +155,7 @@ function viewCookBookRecipeDetails(event) {
   hide(homeRecipeList)
   show(goToCookBook)
   recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.id)
+
   renderCookBookRecipeDetails(recipeMatch)
 }
 
@@ -186,23 +183,23 @@ function renderCookBookRecipeDetails(recipeMatch) {
 
 
 function saveRecipe(event) {
-  console.log('before', user)
+  console.log('Add 1 recipe to users saved recipes', user)
   hide(emptyCookBookMessage)
   recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.dataset.id)
-  setTimeout(()=> {
-    user.addRecipeToCookbook(recipeMatch.name)
-  }, 10)
- 
+  user.addRecipeToCookbook(recipeMatch.name)
 };
 
 function deleteRecipe(event) {
   event.preventDefault()
-  console.log(event)
-  let removeRecipeCard = event.path[2]
   recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.id)
   user.removeRecipeFromList(recipeMatch) 
+  let removeRecipeCard = event.path[2]
   removeRecipeCard.remove()
-  console.log('after', user)
+  console.log('Remove target recipe from saved recipes', user)
+  if(user.savedRecipes.length === 0){
+    show(emptyCookBookMessage)
+  }
+  
 };
 
 function showRecipeIdeas() {
@@ -219,11 +216,9 @@ function showRecipeIdeas() {
   show(getIdeasView);
   hide(homeRecipeList)
   hide(cookBookContainer);
-  setTimeout(()=> {
-    allRecipes.forEach(recipe => {
-      renderAllRecipeCards(recipe)
-    });
-  }, 10)
+  allRecipes.forEach(recipe => {
+    renderAllRecipeCards(recipe)
+  });
 };
 
 function showHomepage() {
@@ -241,11 +236,9 @@ function showHomepage() {
   homeRecipeList.innerHTML = ' ';
   show(homeRecipeList);
   hide(getIdeasView);
-  setTimeout(()=> {
-    allRecipes.forEach(recipe => {
-      createRecipeCard(recipe)
-    });
-  }, 10)
+  allRecipes.forEach(recipe => {
+    createRecipeCard(recipe)
+  });
   hide(cookBookContainer);
 };
 
@@ -264,7 +257,7 @@ function showCookBook() {
   hide(homeRecipeList);
   hide(getIdeasView);
   savedRecipeDetailsView.innerHTML = '';
-
+  // hide(savedRecipeDetailsView)
   show(cookBookContainer);
   show(savedRecipeCards)
 };
@@ -299,4 +292,4 @@ function hide(e) {
   e.classList.add('hidden')
 };
 
-export {viewCookBookRecipeDetails , deleteRecipe}
+export {viewCookBookRecipeDetails , deleteRecipe, attachEventListenerToNewElement}

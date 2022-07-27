@@ -1,4 +1,4 @@
-import { viewCookBookRecipeDetails, deleteRecipe } from '../scripts';
+import { viewCookBookRecipeDetails, deleteRecipe, attachEventListenerToNewElement } from '../scripts';
 
 class User {
   constructor(usersData, recipeRepository) {
@@ -52,7 +52,9 @@ class User {
     return recipesByName
   };
 
+
   addRecipeToCookbook(saveRecipeButton) {
+    // debugger
     let userSelectedRecipe = this.allRecipes.pickRecipeName(saveRecipeButton)
     userSelectedRecipe.forEach(recipe => {
       if (!this.savedRecipes.includes(recipe)) {
@@ -63,6 +65,8 @@ class User {
   };
 
   renderCookBookCard(recipe) {
+    // debugger
+    console.log(recipe)
     let cookBookCard = document.createElement('figure');
     cookBookCard.classList.add('cook-book-card-container');
     cookBookCard.setAttribute('id', `cookBookCardContainer`);
@@ -73,14 +77,29 @@ class User {
           </div>
           <h3>${recipe.name}</h3>
             <button class="view-recipeCOOKBOOK-button" id="${recipe.id}" >View Recipe</button>
-            <button class="delete-button" id="${Date.now()}-delete">Delete</button>
-            </div>`;
-            savedRecipeCards.appendChild(cookBookCard);
-            document.querySelectorAll('#cookBookCardContainer');
-            document.getElementById(`${Date.now()}-delete`).addEventListener('click', deleteRecipe )
-            document.getElementById(`${recipe.id}`).addEventListener('click', viewCookBookRecipeDetails )
-           
+            <button class="delete-button" id="${Date.now()}">Delete</button>
+        </div>`;
+        attachEventListenerToNewElement(`${Date.now()}`, 'click', deleteRecipe) 
+        attachEventListenerToNewElement(`${recipe.id}`, 'click', viewCookBookRecipeDetails) 
+        document.querySelectorAll('#cookBookCardContainer');
+        savedRecipeCards.appendChild(cookBookCard);
+
+
+    //  addedRecipeCard.forEach(recipeCard => {
+    //   console.log('HIIII', recipeCard)
+    //    recipeCard.addEventListener('click', viewCookBookRecipeDetails)
+    //  })
+     
   }
+
+  
+
+  // attachEventListenerToNewElement(id, button, callbackFunction){
+  //   setTimeout(()=> {
+  //     document.getElementById(id).addEventListener(button, callbackFunction)
+  //   }, 10)
+  // }
+
 
   removeRecipeFromList(recipeObject) {
     let getIndex = this.savedRecipes.indexOf(recipeObject);
