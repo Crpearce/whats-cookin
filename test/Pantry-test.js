@@ -87,8 +87,13 @@ describe('Pantry', () => {
     expect(pantry.pantryContents[0]).to.deep.equal(usersData[0]);
   });
 
-  it('should tell the user if their pantry has enough ingredients for a recipe', () => {
+  it('should tell the user if they can cook the recipe', () => {
     expect(pantry.checkForIngredients(595736, recipeData)).to.be.false
-  })
+  });
+
+  it('should tell the user how many ingredients are missing to cook the recipe', () => {
+    expect(pantry.checkMissingIngredientsTotal(595736, recipeData)).to.equal(6)
+  });
+
 
 })

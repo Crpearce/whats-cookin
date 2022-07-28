@@ -22,7 +22,7 @@ Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')]
     return new Recipe(recipe, ingredientObj.ingredientsData);
   })
   recipeRepository = new RecipeRepository(allRecipes);
-  user = new User(userObj.usersData[0], recipeRepository);
+  user = new User(userObj.usersData[Math.floor(Math.random() * 49)], recipeRepository);
   console.log(user)
   allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
@@ -85,9 +85,9 @@ function renderRecipeCard(recipe) {
   homeRecipeList.innerHTML += `
       <div class="recipe-card" id="${recipe.id}-recipe-card" data-id="${recipe.id}">
         <div class="recipe-image-box">
-          <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
+          <img src=${recipe.image} alt="${recipe.name}" class="recipe-display-image">
         </div>
-        <h3>${recipe.name}</h3>
+        <h2>${recipe.name}</h2>
           <button class="view-recipe-button" id="${recipe.id}-view-recipe-button" data-id="${recipe.id}">View Recipe</button>
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
@@ -320,5 +320,86 @@ function show(e) {
 function hide(e) {
   e.classList.add('hidden')
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function generateUserPantry (user) {
+  
+
+}
 
 export {viewCookBookRecipeDetails , deleteRecipe, attachEventListenerToNewElement, renderCookBookCard}
