@@ -1,13 +1,12 @@
-import { renderCookBookCard } from '../scripts';
+// import { renderCookBookCard } from '../scripts';
 
 class User {
   constructor(usersData, recipeRepository) {
     this.name = usersData.name
     this.id = usersData.id;
-    this.pantry = usersData.pantry
+    this.pantry = usersData.pantry;
     this.savedRecipes = [];
     this.allRecipes = recipeRepository;
-
   };
 
 //not hooked up to anything at the moment

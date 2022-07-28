@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,27 +10,27 @@
   </head>
   <body>
     <nav class="navbar-fixed-top" id="navigationBar">
-      <div class="container">
+      <section class="container">
         <img= "project-logo" src= "./images/logo.PNG" id="projectLogo">
         <section class="navbar-options" id="navigationOptions">
-          <ul class="navigation" id="navigation">
-            <button class="user-options" id="homePageBtn">Home</button>
-            <button class="user-options" id="getIdeas">Get Some Ideas!</button>
-            <button class="user-options" id="goToCookBook">View Your Cookbook</button>
-          </ul>
+          <div class="navigation" id="navigation">
+            <button class="user-options" aria-label="home page button" id="homePageBtn">Home</button>
+            <button class="user-options" aria-label="get ideas button" id="getIdeas">Get Some Ideas!</button>
+            <button class="user-options" aria-label="go to cookbook button" id="goToCookBook">View Your Cookbook</button>
+          </div>
         </section>
         <section class="search-buttons" id="searchButtons">
           <form accept-charset="">
-          <button class="search-name"><img src="./images/search-icon.svg"></button>
+          <button class="search-name" aria-label="search by name button"><img alt="search icon button" src="./images/search-icon.svg"></button>
             <input class="query1" type= "text" id="searchNameBar" name="search by name" placeholder="Search by Name">
           </form>
         <span> -- OR -- </span>
         <form accept-charset="">
-        <button class="search-tag"><img src="./images/search-icon.svg"></button>
+        <button class="search-tag" aria-label="search by tag button"><img alt="search icon button" src="./images/search-icon.svg"></button>
           <input class="query2" type= "text" id="searchTagBar" name="search by tag" placeholder="Search by Category ">
         </form>
         </section>
-      </div>
+      </section>
     </nav>
     <section class="view main-view">
       <section class="title-container" id="titleBanner" >
@@ -38,8 +38,6 @@
       </section>
       <section class="recipe-list-container" id="recipeList">
       </section>
-      <!-- <section class="recipe-master-container" id="recipeContainer"> -->
-        <!-- <section class="recipe-template-container" id="recipeTemplate"> -->
         </section>
       </section>
     </section>
