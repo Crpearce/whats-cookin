@@ -23,23 +23,23 @@ describe('User', () => {
     user = new User(usersData[0], recipeRepository);
 
   });
-      it.skip('should be a function', () => {
+      it('should be a function', () => {
         expect(User).to.be.a('function')
       });
 
-      it.skip('Should be a new instance of User', () => {
+      it('Should be a new instance of User', () => {
         expect(user).to.be.an.instanceOf(User)
       });
 
-      it.skip('should start with a name', () => {
+      it('should start with a name', () => {
         expect(user.name).to.deep.equal("Saige O'Kon")
       });
 
-      it.skip('should start with an id', () => {
+      it('should start with an id', () => {
         expect(user.id).to.deep.equal(1)
       });
 
-      it.skip('should start with items in their pantry', () => {
+      it('should start with items in their pantry', () => {
         expect(user.pantry).to.deep.equal([{
           "ingredient": 11297,
           "amount": 4
@@ -183,18 +183,18 @@ describe('User', () => {
       ])
       });
 
-      it.skip('should start with no saved recipes', () => {
+      it('should start with no saved recipes', () => {
         expect(user.savedRecipes).to.deep.equal([])
       });
 
-      it.skip('should add recipes to my saved recipes', () => {
+      it('should add recipes to my saved recipes', () => {
         user.addRecipeToCookbook('pork')
         user.addRecipeToCookbook('Wing')
 
         expect(user.savedRecipes).to.deep.equal([recipe2, recipe3])
       });
 
-      it.skip('should remove recipes from my saved recipes', () => {
+      it('should remove recipes from my saved recipes', () => {
         user.addRecipeToCookbook('pork')
         user.addRecipeToCookbook('Wing')
         user.addRecipeToCookbook('Wing')
@@ -208,19 +208,27 @@ describe('User', () => {
 
       });
 
-      it.skip('should filter a recipe by tag', () =>  {
-
+      it('should filter a recipe by tag if included in the recipe', () =>  {
         user.addRecipeToCookbook('wing')
         user.addRecipeToCookbook('pork')
 
        expect(user.filterAllByTag('sauce')).to.deep.equal([recipe3])
        expect(user.filterAllByTag('lunch')).to.deep.equal([recipe2])
-
       });
 
-      it.skip('should filter a recipe by name', () =>  {
+      it('should not filter a recipe by tag if not included in the recipe', () => {
 
-      user.addRecipeToCookbook('cookie')
+      expect(user.filterAllByTag('42')).to.deep.equal([])
+      });
+
+      it('should filter a recipe by name if included in the recipe', () =>  {
+        user.addRecipeToCookbook('cookie')
+
        expect(user.filterAllByName('cookie')).to.deep.equal([recipe1])
+      });
+
+      it('should not filter a recipe by name if not included in the recipe', () => {
+
+        expect(user.filterAllByName('42')).to.deep.equal([])
       });
 });
