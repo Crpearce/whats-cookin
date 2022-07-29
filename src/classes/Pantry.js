@@ -1,12 +1,15 @@
 class Pantry{
 
-  constructor(usersData){
-    this.pantryContents = usersData;
+  constructor(user){
+    this.pantryContents = user;
+    // this.userId = id;
   }
 
   checkForIngredients(id, recipeData){
-    let hasIngredients = true;
+    console.log(recipeData)
+    let hasIngredients;
     let currentRecipe = recipeData.find(recipe => recipe.id === id).ingredients;
+    console.log(currentRecipe)
     currentRecipe.forEach(ingredient => {
       if(!this.pantryContents[ingredient]){
         hasIngredients = false;
@@ -18,29 +21,28 @@ class Pantry{
         })
       }
     })
-    // console.log(hasIngredients)
+    console.log(hasIngredients)
     return hasIngredients
   }
 
   checkMissingIngredientsTotal(id, recipeData) {
     let currentRecipe = recipeData.find(recipe => recipe.id === id).ingredients;
     let missingIngredients = [];
-    console.log(currentRecipe)
-    currentRecipe.forEach((recipeIngredient) => {
-      let inPantry = false
-    this.pantryContents.find((pantryIngredient) => {
+    currentRecipe.forEach(recipeIngredient => {
+      let inPantry;
+    this.pantryContents.forEach(pantryIngredient => {
       if(recipeIngredient.id === pantryIngredient.ingredient) {
-        inPantry = true
+        return
       }
     })
       if(inPantry === false) {
         missingIngredients.push(recipeIngredient)
       }
+      console.log('test2', missingIngredients);
     })
-  console.log(missingIngredients);
   }
 };
-  
+
 
 
 
