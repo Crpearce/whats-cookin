@@ -1,34 +1,33 @@
-class Pantry{
+import usersData from "../data/users";
 
-  constructor(usersData){
-    this.pantryContents = usersData;
-  }
+class Pantry{
+  constructor(user) {
+    this.pantryContents = user;
+  };
 
   checkForIngredients(id, recipeData){
-    let hasIngredients = true;
-    let currentRecipe = recipeData.find(recipe => recipe.id === id).ingredients;
-    currentRecipe.forEach(ingredient => {
-      if(!this.pantryContents[ingredient]){
+    let hasIngredients;
+    let recipeIngredients = recipeData.find(recipe => recipe.id === id).ingredients;
+    recipeIngredients.forEach(ingredient => {
+      if(!this.pantryContents[ingredient]) {
         hasIngredients = false;
       } else {
-        this.pantryContents.forEach(ingredient => {
-          if(ingredient.amount >= ingredient.quantity.amount){
+        usersData.forEach(ingredient => {
+          if(ingredient.amount >= ingredient.quantity.amount) {
             hasIngredients = true;
           }
         })
       }
     })
-    // console.log(hasIngredients)
-    return hasIngredients
+    return hasIngredients;
   }
 
   checkMissingIngredientsTotal(id, recipeData) {
-    let currentRecipe = recipeData.find(recipe => recipe.id === id).ingredients;
+    let recipeIngredients = recipeData.find(recipe => recipe.id === id).ingredients;
     let missingIngredients = [];
-    console.log(currentRecipe)
-    currentRecipe.forEach((recipeIngredient) => {
+    recipeIngredients.forEach((recipeIngredient) => {
       let inPantry = false
-    this.pantryContents.find((pantryIngredient) => {
+    this.pantryContents.pantry.pantryContents.find((pantryIngredient) => {
       if(recipeIngredient.id === pantryIngredient.ingredient) {
         inPantry = true
       }
@@ -37,11 +36,8 @@ class Pantry{
         missingIngredients.push(recipeIngredient)
       }
     })
-  console.log(missingIngredients);
+    return missingIngredients.length
   }
 };
   
-
-
-
 export default Pantry;
