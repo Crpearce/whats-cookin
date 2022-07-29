@@ -3,6 +3,7 @@
   /* border: 1px solid red; */
 }
 #navigationBar{
+  /* position: fixed; */
   background-color: #062C30;
   height: 100px;
 }

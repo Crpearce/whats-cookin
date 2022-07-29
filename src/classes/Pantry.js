@@ -1,9 +1,11 @@
 import usersData from "../data/users";
 
 class Pantry{
+
   constructor(user) {
     this.pantryContents = user;
   };
+
 
   checkForIngredients(id, recipeData){
     let hasIngredients;
