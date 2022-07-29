@@ -15,14 +15,33 @@ let recipeRepository;
 let user;
 let randomCounter = 0;
 
-// fetch promise
+// fetch promise(s)
+
+// // this is the promise all for running on the heroku app
+// Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
+// .then(([ingredientObj, recipeObj, userObj]) => {
+//   allRecipes = recipeObj.recipeData.map(recipe => {
+//     return new Recipe(recipe, ingredientObj.ingredientsData);
+//   })
+//   recipeRepository = new RecipeRepository(allRecipes);
+//   user = new User(userObj.usersData[0], recipeRepository);
+//   console.log(user)
+//   allRecipes.forEach(recipe => {
+//     createRecipeCard(recipe);
+//   });
+//   hide(homeButton)
+// });
+
+
+// //  This is the promise all for running on the local server
+
 Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
-.then(([ingredientObj, recipeObj, userObj]) => {
-  allRecipes = recipeObj.recipeData.map(recipe => {
-    return new Recipe(recipe, ingredientObj.ingredientsData);
+.then(([ingredientsData, recipeData, usersData]) => {
+  allRecipes = recipeData.map(recipe => {
+    return new Recipe(recipe, ingredientsData);
   })
   recipeRepository = new RecipeRepository(allRecipes);
-  user = new User(userObj.usersData[0], recipeRepository);
+  user = new User(usersData[0], recipeRepository);
   console.log(user)
   allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
@@ -45,7 +64,6 @@ let searchTagBar = document.getElementById('searchTagBar');
 let getIdeasView = document.getElementById('getIdeasView');
 let savedRecipeCards = document.getElementById('savedRecipeCards');
 let homeRecipeList = document.getElementById('recipeList');
-let viewRecipeButton = document.getElementById('recipeContainer')
 let homeButton = document.getElementById('homePageBtn')
 let savedRecipeDetailsView = document.getElementById('savedRecipeDetailsView')
 
@@ -53,23 +71,36 @@ let savedRecipeDetailsView = document.getElementById('savedRecipeDetailsView')
 //eventListeners:
 getIdeasButton.addEventListener('click', showRecipeIdeas);
 homeButton.addEventListener('click', showHomepage);
-searchNameBar.addEventListener('input', searchAllRecipes);//consider invoking with a button?  need to clear input after search
-searchTagBar.addEventListener('input', filterAllRecipes);//consider invoking with a button?  need to clear input after search
-// getIdeasView.addEventListener('click', viewRecipeIdeasDetails);// will still need??
+searchNameBar.addEventListener('input', searchAllRecipes);
+searchTagBar.addEventListener('input', filterAllRecipes);
+getIdeasView.addEventListener('click', handleButtons);
 goToCookBook.addEventListener('click', showCookBook);
-// recipeList.addEventListener('click', viewRecipeDetails);
-// recipeList.addEventListener('click', saveRecipe);
-// viewRecipeButton.addEventListener('click', viewRecipeDetails);
-// allRecipesContainer.addEventListener('click', openRecipeDetail);
-// savedRecipeCards.addEventListener('dblclick', deleteSavedRecipes);
-function attachEventListenerToNewElement(id, button, callbackFunction){
-  setTimeout(()=> {
-   document.getElementById(id).addEventListener(button, callbackFunction)
-  }, 10)
-}
+homeRecipeList.addEventListener('click', handleButtons);
+savedRecipeCards.addEventListener('click', handleButtons);
+
 
 function renderErrorMessage(message) {
   homeRecipeList.innerHTML += `<h2>${message}</h2>`
+}
+
+
+function handleButtons(event) {
+  switch (event.target.className) {
+    case "view-recipe-button":
+      viewRecipeDetails(event)
+      break;
+      case "view-COOKBOOK-recipe":
+        viewCookBookRecipeDetails(event)
+        break;
+    case "save-button":
+      saveRecipe(event)
+      break;
+    case "delete-button":
+      deleteRecipe(event)
+      break;
+  default:
+      break;
+  }
 }
 
 //eventHandlers:
@@ -91,9 +122,6 @@ function renderRecipeCard(recipe) {
           <button class="view-recipe-button" id="${recipe.id}-view-recipe-button" data-id="${recipe.id}">View Recipe</button>
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
-
-    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)
-    attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
 }
 
 function renderAllRecipeCards(recipe) {
@@ -106,9 +134,6 @@ function renderAllRecipeCards(recipe) {
           <button class="view-recipe-button" id="${recipe.id}-view-recipe-button" data-id="${recipe.id}">View Recipe</button>
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
-
-    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)
-    attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
 }
 
 function viewRecipeDetails(event) {
@@ -135,7 +160,6 @@ function renderRecipeDetails(recipeMatch) {
   homeRecipeList.innerHTML += `
   <h1>${recipeMatch.name}    <button class="save-button" id="${recipeMatch.id}-save-recipe-button" data-id="${recipeMatch.id}">Save To Cookbook</button></h1>
   `
-  attachEventListenerToNewElement(`${recipeMatch.id}-save-recipe-button`, 'click', saveRecipe)
   let printCost = recipeMatch.estimateIngredientCost();
   homeRecipeList.innerHTML += `<h3>COST $${printCost}</h3>`
   homeRecipeList.innerHTML += '<h1> Directions </h1>'
@@ -150,15 +174,12 @@ function renderRecipeDetails(recipeMatch) {
   });
 };
 
-
-
 function viewCookBookRecipeDetails(event) {
   hide(savedRecipeCards)
   hide(getIdeasView)
   hide(homeRecipeList)
   show(goToCookBook)
-  recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.id)
-
+  recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.dataset.id)
   renderCookBookRecipeDetails(recipeMatch)
 }
 
@@ -183,7 +204,6 @@ function renderCookBookRecipeDetails(recipeMatch) {
     savedRecipeDetailsView.innerHTML += `<h4>${ingredient}</h4>`
   });
 };
-
 
 function saveRecipe(event) {
   console.log('Add 1 recipe to users saved recipes', user)
@@ -216,11 +236,9 @@ function renderCookBookCard(recipe) {
           <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
         </div>
         <h3>${recipe.name}</h3>
-        <button class="view-recipeCOOKBOOK-button" id="${recipe.id}">View Recipe</button>
-        <button class="delete-button" id="${Date.now()}">Delete</button>
+        <button class="view-COOKBOOK-recipe" id="${recipe.id}-view-recipe-button" data-id="${recipe.id}">View Recipe</button>
+        <button class="delete-button">Delete</button>
       </div>`;
-      attachEventListenerToNewElement(`${Date.now()}`, 'click', deleteRecipe)
-      attachEventListenerToNewElement(`${recipe.id}`, 'click', viewCookBookRecipeDetails)
       document.querySelectorAll('#cookBookCardContainer');
       savedRecipeCards.appendChild(cookBookCard)
 }
@@ -266,21 +284,19 @@ function showHomepage() {
 };
 
 function showCookBook() {
-
   show(getIdeasButton)
   show(homeButton)
   hide(goToCookBook)
   searchNameBar.value = null;
   searchTagBar.value = null;
   show(searchButtons)
-
   homeRecipeList.innerHTML = ' ';
   show(yourCookbook)
   hide(titleBanner)
   hide(homeRecipeList);
   hide(getIdeasView);
   savedRecipeDetailsView.innerHTML = '';
-  // hide(savedRecipeDetailsView)
+ 
   show(cookBookContainer);
   show(savedRecipeCards)
 };
@@ -321,4 +337,4 @@ function hide(e) {
   e.classList.add('hidden')
 };
 
-export {viewCookBookRecipeDetails , deleteRecipe, attachEventListenerToNewElement, renderCookBookCard}
+export {viewCookBookRecipeDetails , deleteRecipe,  renderCookBookCard}
