@@ -6,6 +6,7 @@ import './images/logo.png'
 import User from '../src/classes/User';
 import Recipe from '../src/classes/Recipe';
 import RecipeRepository from '../src/classes/RecipeRepository';
+import Ingredient from '../src/classes/RecipeRepository';
 import Pantry from '../src/classes/Pantry';
 
 //global variables:
@@ -13,7 +14,9 @@ let recipeMatch;
 let allRecipes;
 let recipeRepository;
 let user;
+let ingredientNames = [];
 let randomCounter = 0;
+let ingredientsDATA;
 
 // fetch promise(s)
 
@@ -37,30 +40,45 @@ let randomCounter = 0;
 
 Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
 .then(([ingredientsData, recipeData, usersData]) => {
+  ingredientsDATA = ingredientsData;
   allRecipes = recipeData.map(recipe => {
     return new Recipe(recipe, ingredientsData);
   })
+  
+  
   recipeRepository = new RecipeRepository(allRecipes);
-
-  user = new User(userObj.usersData[Math.floor(Math.random() * 49)], recipeRepository);
-
-  console.log(user)
+  
+  user = new User(usersData[Math.floor(Math.random() * 49)], recipeRepository);
+  
   allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
   });
   hide(homeButton)
 });
 
+
+
 //query selectors:
 document.getElementsByClassName('save-button')
 let homeView = document.getElementsByClassName('main-view')
 let getIdeasButton = document.getElementById('getIdeas');
-let cookBookContainer = document.getElementById('cookBookContainer');
 let yourCookbook = document.getElementById('yourCookbook');
+let yourPantry = document.getElementById('pantry');
+
+let pantryIngredientList = document.getElementById('pantryIngredients');
+
+
+
+
+let cookBookContainer = document.getElementById('cookBookContainer');
 let searchButtons = document.getElementById('searchButtons');
 let emptyCookBookMessage = document.getElementById('emptyCookBookMessage');
 let titleBanner = document.getElementById('titleBanner');
 let goToCookBook = document.getElementById('goToCookBook');
+let goToPantry = document.getElementById('goToPantry');
+
+
+
 let searchNameBar = document.getElementById('searchNameBar');
 let searchTagBar = document.getElementById('searchTagBar');
 let getIdeasView = document.getElementById('getIdeasView');
@@ -73,13 +91,13 @@ let savedRecipeDetailsView = document.getElementById('savedRecipeDetailsView')
 //eventListeners:
 getIdeasButton.addEventListener('click', showRecipeIdeas);
 homeButton.addEventListener('click', showHomepage);
+goToPantry.addEventListener('click', showPantry)
 searchNameBar.addEventListener('input', searchAllRecipes);
 searchTagBar.addEventListener('input', filterAllRecipes);
 getIdeasView.addEventListener('click', handleButtons);
 goToCookBook.addEventListener('click', showCookBook);
 homeRecipeList.addEventListener('click', handleButtons);
 savedRecipeCards.addEventListener('click', handleButtons);
-
 
 function renderErrorMessage(message) {
   homeRecipeList.innerHTML += `<h2>${message}</h2>`
@@ -172,7 +190,7 @@ function renderRecipeDetails(recipeMatch) {
   homeRecipeList.innerHTML += '<h1> Ingredients </h1>'
   let printIngredients = recipeMatch.listIngredients();
   printIngredients.forEach(ingredient => {
-    homeRecipeList.innerHTML += `<h4>${ingredient}</h4>`
+    homeRecipeList.innerHTML += `<li>${ingredient}</li>`
   });
 };
 
@@ -201,9 +219,10 @@ function renderCookBookRecipeDetails(recipeMatch) {
     savedRecipeDetailsView.innerHTML += `<h3>${step}</h3>`
   });
   savedRecipeDetailsView.innerHTML += '<h1> Ingredients </h1>'
+  
   let printIngredients = recipeMatch.listIngredients();
   printIngredients.forEach(ingredient => {
-    savedRecipeDetailsView.innerHTML += `<h4>${ingredient}</h4>`
+    savedRecipeDetailsView.innerHTML += `<li>${ingredient}</li>`
   });
 };
 
@@ -248,6 +267,7 @@ function renderCookBookCard(recipe) {
 function showRecipeIdeas() {
   searchNameBar.value = null;
   searchTagBar.value = null;
+  hide(yourPantry)
   show(searchButtons)
   show(goToCookBook)
   hide(getIdeasButton)
@@ -265,6 +285,7 @@ function showRecipeIdeas() {
 };
 
 function showHomepage() {
+  hide(yourPantry)
   show(getIdeasButton)
   show(goToCookBook)
   hide(homeButton)
@@ -285,7 +306,45 @@ function showHomepage() {
   hide(cookBookContainer);
 };
 
+// function listIngredients(  ) {
+//   console.log('user logs', user.pantry.pantryContents)
+//   pantryIngredientList.innerHTML += user.pantry.pantryContents
+  
+//   // console.log('ingredients data', ingredientsDATA)
+
+//   let getIds = ingredientsDATA.map(ingredient => ingredient.id)
+
+
+//   // console.log('the ids', getIds)
+
+
+//   getIds.forEach(id => {
+
+
+//     ingredientsDATA.forEach(ingredient => {
+//       if (ingredient.id === id) {
+//         ingredientNames.push(ingredient.name)
+//       }
+//     })
+//   })
+//   return ingredientNames
+// };
+
+
+function showPantry(){
+  show(yourPantry)
+  hide(homeRecipeList);
+  hide(getIdeasView);
+  hide(yourCookbook)
+  hide(titleBanner)
+  show(homeButton)
+  // listIngredients()
+
+
+}
+
 function showCookBook() {
+  hide(yourPantry)
   show(getIdeasButton)
   show(homeButton)
   hide(goToCookBook)
