@@ -1,7 +1,7 @@
 class Pantry{
-
-  constructor(usersData){
-    this.pantryContents = usersData;
+  constructor(pantry){
+    console.log('from pantry', usersData)
+    this.pantryContents = pantry;
     // this.amount = usersData.amount;
   }
   checkForIngredients(id, recipeData){

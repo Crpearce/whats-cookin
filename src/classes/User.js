@@ -2,6 +2,7 @@ import { renderCookBookCard } from '../scripts';
 
 class User {
   constructor(usersData, recipeRepository) {
+    console.log(usersData)
     this.name = usersData.name
     this.id = usersData.id;
     this.pantry = usersData.pantry
@@ -27,7 +28,7 @@ class User {
   filterAllByTag(recipeCategory) {
     let recipesByTag = [];
     this.allRecipes.recipes.filter((recipe) => {
-      if (recipe.tags.includes(recipeCategory.toLowerCase())) {
+      if (recipe.tags.toString().includes(recipeCategory.toLowerCase())) {
         recipesByTag.push(recipe)
       }
     })
