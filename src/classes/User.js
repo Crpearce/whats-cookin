@@ -1,13 +1,14 @@
-import { renderCookBookCard } from '../scripts';
+// import { renderCookBookCard } from '../scripts';
+import Pantry from './Pantry';
 
 class User {
   constructor(usersData, recipeRepository) {
     this.name = usersData.name
     this.id = usersData.id;
-    this.pantry = usersData.pantry
+    this.pantry = new Pantry(usersData.pantry);
+    // console.log(this.pantry)
     this.savedRecipes = [];
     this.allRecipes = recipeRepository;
-
   };
 
 //not hooked up to anything at the moment
@@ -22,6 +23,7 @@ class User {
     });
     return recipesByTag
   };
+
 
 ///Eddie working on this
   filterAllByTag(recipeCategory) {
@@ -74,8 +76,10 @@ class User {
   };
 }
 
-
-
+// 
+// checkPantry(id, allRecipes){
+//   this.pantry.checkForIngredients(id, allRecipes)
+// }
 
 
 

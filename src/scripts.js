@@ -22,13 +22,14 @@ Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')]
     return new Recipe(recipe, ingredientObj.ingredientsData);
   })
   recipeRepository = new RecipeRepository(allRecipes);
-  user = new User(userObj.usersData[0], recipeRepository);
-  console.log(user)
+  user = new User(userObj.usersData[Math.floor(Math.random() * 49)], recipeRepository);
+  console.log(user.checkPantry(id, allRecipes))
   allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
   });
   hide(homeButton)
 });
+
 
 //query selectors:
 document.getElementsByClassName('save-button')
@@ -62,11 +63,11 @@ goToCookBook.addEventListener('click', showCookBook);
 // viewRecipeButton.addEventListener('click', viewRecipeDetails);
 // allRecipesContainer.addEventListener('click', openRecipeDetail);
 // savedRecipeCards.addEventListener('dblclick', deleteSavedRecipes);
-function attachEventListenerToNewElement(id, button, callbackFunction){
-  setTimeout(()=> {
-   document.getElementById(id).addEventListener(button, callbackFunction)
-  }, 10)
-}
+// function attachEventListenerToNewElement(id, button, callbackFunction){
+//   setTimeout(()=> {
+//    document.getElementById(id).addEventListener(button, callbackFunction)
+//   }, 10)
+// }
 
 function renderErrorMessage(message) {
   homeRecipeList.innerHTML += `<h2>${message}</h2>`
@@ -85,15 +86,15 @@ function renderRecipeCard(recipe) {
   homeRecipeList.innerHTML += `
       <div class="recipe-card" id="${recipe.id}-recipe-card" data-id="${recipe.id}">
         <div class="recipe-image-box">
-          <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
+          <img src=${recipe.image} alt="${recipe.name}" class="recipe-display-image">
         </div>
-        <h3>${recipe.name}</h3>
+        <h2>${recipe.name}</h2>
           <button class="view-recipe-button" id="${recipe.id}-view-recipe-button" data-id="${recipe.id}">View Recipe</button>
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
-
-    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)
-    attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
+//
+//     // attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)
+//     // attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
 }
 
 function renderAllRecipeCards(recipe) {
@@ -107,8 +108,8 @@ function renderAllRecipeCards(recipe) {
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
 
-    attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)
-    attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
+    // attachEventListenerToNewElement(`${recipe.id}-view-recipe-button`, 'click', viewRecipeDetails)
+    // attachEventListenerToNewElement(`${recipe.id}-save-recipe-button`, 'click', saveRecipe)
 }
 
 function viewRecipeDetails(event) {
@@ -135,7 +136,7 @@ function renderRecipeDetails(recipeMatch) {
   homeRecipeList.innerHTML += `
   <h1>${recipeMatch.name}    <button class="save-button" id="${recipeMatch.id}-save-recipe-button" data-id="${recipeMatch.id}">Save To Cookbook</button></h1>
   `
-  attachEventListenerToNewElement(`${recipeMatch.id}-save-recipe-button`, 'click', saveRecipe)
+  // attachEventListenerToNewElement(`${recipeMatch.id}-save-recipe-button`, 'click', saveRecipe)
   let printCost = recipeMatch.estimateIngredientCost();
   homeRecipeList.innerHTML += `<h3>COST $${printCost}</h3>`
   homeRecipeList.innerHTML += '<h1> Directions </h1>'
@@ -219,8 +220,8 @@ function renderCookBookCard(recipe) {
         <button class="view-recipeCOOKBOOK-button" id="${recipe.id}">View Recipe</button>
         <button class="delete-button" id="${Date.now()}">Delete</button>
       </div>`;
-      attachEventListenerToNewElement(`${Date.now()}`, 'click', deleteRecipe)
-      attachEventListenerToNewElement(`${recipe.id}`, 'click', viewCookBookRecipeDetails)
+      // attachEventListenerToNewElement(`${Date.now()}`, 'click', deleteRecipe)
+      // attachEventListenerToNewElement(`${recipe.id}`, 'click', viewCookBookRecipeDetails)
       document.querySelectorAll('#cookBookCardContainer');
       savedRecipeCards.appendChild(cookBookCard)
 }
@@ -321,4 +322,85 @@ function hide(e) {
   e.classList.add('hidden')
 };
 
-export {viewCookBookRecipeDetails , deleteRecipe, attachEventListenerToNewElement, renderCookBookCard}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function generateUserPantry (user) {
+
+
+}
+
+export {viewCookBookRecipeDetails , deleteRecipe,  renderCookBookCard}
