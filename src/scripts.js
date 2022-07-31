@@ -285,6 +285,7 @@ function viewRecipeDetails(event) {
   hide(cookBookContainer)
   homeRecipeList.innerHTML = ` `;
   recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.dataset.id)
+  user.pantry.checkForIngredients(recipeMatch, allRecipes)
   renderRecipeDetails(recipeMatch)
 }
 
@@ -292,6 +293,7 @@ function renderRecipeDetails(recipeMatch) {
   hide(titleBanner)
   homeRecipeList.innerHTML +=
   `<div class="recipe-image-box">
+  '<h1> ${user.pantry.checkForIngredients(recipeMatch, allRecipes)} </h1>'
    <img src=${recipeMatch.image} alt="recipe image" class="recipe-display-image">
   </div>`
   homeRecipeList.innerHTML += `
