@@ -22,10 +22,17 @@ class Recipe {
   };
   estimateIngredientCost() {
     let estimatedCost = 0;
+<<<<<<< HEAD
     // console.log(this.ingredientList)
+=======
+    console.log(this.ingredientList)
+
+>>>>>>> 8bdb068b4157cf090cf2b0c29fa0559f7b6f8058
     this.ingredients.forEach(ingredient => {
       
       this.ingredientList.forEach(ingredientInfo => {
+
+        
         if(ingredient.id === ingredientInfo.id) {
           estimatedCost += ((ingredient.quantity.amount * ingredientInfo.estimatedCostInCents) / 100);
         }
