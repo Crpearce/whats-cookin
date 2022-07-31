@@ -18,6 +18,8 @@ let user;
 let ingredientNames = [];
 let randomCounter = 0;
 let ingredientsDATA;
+let pantryInfo;
+
 
 // fetch promise(s)
 
@@ -28,12 +30,16 @@ Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')]
     return new Recipe(recipe, ingredientObj.ingredientsData);
   })
   recipeRepository = new RecipeRepository(allRecipes);
-  user = new User(userObj.usersData[[Math.floor(Math.random() * 49)]], recipeRepository);
-  console.log(user)
+
+  user = new User(usersData[0], recipeRepository);
+  // user = new User(usersData[Math.floor(Math.random() * 49)], recipeRepository);
+  
+
   allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
   });
   hide(homeButton)
+  console.log(user)
 });
 
 
@@ -65,21 +71,19 @@ let homeView = document.getElementsByClassName('main-view')
 let getIdeasButton = document.getElementById('getIdeas');
 let yourCookbook = document.getElementById('yourCookbook');
 let yourPantry = document.getElementById('pantry');
-
+let pantryHeader = document.getElementById('pantryHeader');
 let pantryIngredientList = document.getElementById('pantryIngredients');
+let pantryAmountsNumber = document.getElementById('pantryAmounts');
 
-
-
-
+// let qtyInPantry = pantryIngredientList.children;
 let cookBookContainer = document.getElementById('cookBookContainer');
 let searchButtons = document.getElementById('searchButtons');
 let emptyCookBookMessage = document.getElementById('emptyCookBookMessage');
 let titleBanner = document.getElementById('titleBanner');
 let goToCookBook = document.getElementById('goToCookBook');
 let goToPantry = document.getElementById('goToPantry');
-
-
-
+let addIngredientBar = document.getElementById('addIngredientBar');
+let addIngredientToPantryBtn = document.getElementById('addIngredientToPantryBtn');
 let searchNameBar = document.getElementById('searchNameBar');
 let searchTagBar = document.getElementById('searchTagBar');
 let getIdeasView = document.getElementById('getIdeasView');
@@ -87,16 +91,32 @@ let savedRecipeCards = document.getElementById('savedRecipeCards');
 let homeRecipeList = document.getElementById('recipeList');
 let homeButton = document.getElementById('homePageBtn')
 let savedRecipeDetailsView = document.getElementById('savedRecipeDetailsView')
-
+let pantryContainer = document.getElementById('pantryContainer')
+let pantryListContainer = document.getElementById('listContainer')
 
 //eventListeners:
+window.onload = function () {
+  listUsersIngredients()
+  // showModal()
+}
+
+addIngredientBar.addEventListener('keypress', (event) => {
+  if(event === 13){
+    addToPantryPage()
+  }
+})
 getIdeasButton.addEventListener('click', showRecipeIdeas);
 homeButton.addEventListener('click', showHomepage);
 goToPantry.addEventListener('click', showPantry)
 searchNameBar.addEventListener('input', searchAllRecipes);
 searchTagBar.addEventListener('input', filterAllRecipes);
+addIngredientToPantryBtn.addEventListener('click', packageIngredient)
+pantryContainer.addEventListener('click', handleButtons)
+
 getIdeasView.addEventListener('click', handleButtons);
 goToCookBook.addEventListener('click', showCookBook);
+pantryListContainer.addEventListener('click', showCookBook);
+// pantryIngredientList.addEventListener('click', handleButtons)
 homeRecipeList.addEventListener('click', handleButtons);
 savedRecipeCards.addEventListener('click', handleButtons);
 
@@ -119,8 +139,104 @@ function handleButtons(event) {
     case "delete-button":
       deleteRecipe(event)
       break;
+
+    case "add-qty-to-ingregedient-btn":
+      // addIngredient(event)
+      break;  
+
+    case "remove-qty-from-ingregedient-btn":
+    // removeIngredient(event)
+    break;
   default:
       break;
+  }
+}
+
+function packageIngredient(event) {
+  event.preventDefault()
+  // console.log(user)
+  // console.log(ingredientsDATA.id)
+
+  let getNames = ingredientsDATA.map(ingredient => ingredient.name)
+
+  let getIds = ingredientsDATA.map(ingredient => ingredient.id)
+  console.log(getIds)
+  console.log(getNames)
+
+// if(ingredientsDATA.includes(addIngredientBar.value)) {
+//   newIngredient.ingredientID = ingredientsDATA.id;
+// }
+
+
+//  console.log(addIngredientBar.value)
+// console.log(ingredientsDATA.forEach(ingredient => {
+//   console.log(ingredient)
+//  }))
+       
+        
+
+
+
+  //   let pantryIds = user.pantry.pantryContents.map(ingredient => ingredient.ingredient);
+  //   pantryIds.forEach(id => {
+  //     ingredientsDATA.forEach(ingredient => {
+  //       if (ingredient.id === id) {
+  //         ingredientNames.push(ingredient.name)
+  //       }
+  //     })
+  //   })
+  //   ingredientNames.forEach(ingredient => {
+  //     pantryIngredientList.innerHTML += `<li>${ingredient}</li>`
+  // })
+  
+
+
+  //  we are going to need to convert this -> addIngredientBar.value from a string back into a number.  we are going to have to reference the string that gets passed in to the ingredient data.  If the string that gets passed in matches the ingredient name then we want it to return the ingredient name.
+
+  // { userID: <number>, ingredientID: <number>, ingredientModification: <number> }
+
+  // const formData = new FormData(event.target); this goes in the object below if we care for refactor.  formData.get(''),
+
+  let newIngredient = {
+    userID: user.id,
+    ingredientID: 11297,
+    ingredientModification: 1
+  };
+
+  addToPantry(newIngredient)
+}
+
+function addToPantry(newIngredient) {
+  event.preventDefault()
+
+
+  fetch("http://localhost:3001/api/v1/users", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newIngredient)
+  })
+  .then(response => {
+    if(!response.ok) {
+      throw new Error(response.statusText) 
+    } else {
+    return response.json()}})
+  .then(newIngredient =>  addToPantryPage())
+  .catch(error => 
+    yourPantry.innerHTML += `<p>${error.message}</p>`
+    )
+}
+
+function addToPantryPage() {
+  if(addIngredientBar.value === ''){
+    pantryHeader.innerHTML += `<p>${addIngredientBar.value} is not a valid entry </p>`
+  } else {
+    pantryHeader.innerHTML = ''
+    pantryIngredientList.innerHTML += `<li >Ingredient: ${addIngredientBar.value}
+    --->amount:${5}
+    <button class="add-qty-to-ingregedient-btn">Add +1</button>
+    <button class="remove-qty-from-ingregedient-btn">Remove 1</button>
+  </li>`
+    addIngredientBar.value = null;
   }
 }
 
@@ -307,41 +423,40 @@ function showHomepage() {
   hide(cookBookContainer);
 };
 
-// function listIngredients(  ) {
-//   console.log('user logs', user.pantry.pantryContents)
-//   pantryIngredientList.innerHTML += user.pantry.pantryContents
 
-//   // console.log('ingredients data', ingredientsDATA)
+function listUsersIngredients() {
+  let usersPantry = user.pantry.pantryContents
+ pantryInfo = usersPantry.map(ingredient => { 
+   return {id: ingredient.ingredient,  amount: ingredient.amount}
+  }
+);
+pantryInfo.forEach(ingredientObj => {
+    ingredientsDATA.forEach(ingredient => {
+      if (ingredient.id === ingredientObj.id) {
+        ingredientNames.push(ingredient.name)
+        pantryIngredientList.innerHTML += `<li>Ingredient: ${ingredient.name} --->amount:${ingredientObj.amount}
+        <button class="add-qty-to-ingregedient-btn">Add +1</button>
+        <button class="remove-qty-from-ingregedient-btn">Remove 1</button>
+        </li>`
+      }
+    })
+  })
+};
 
-//   let getIds = ingredientsDATA.map(ingredient => ingredient.id)
-
-
-//   // console.log('the ids', getIds)
-
-
-//   getIds.forEach(id => {
-
-
-//     ingredientsDATA.forEach(ingredient => {
-//       if (ingredient.id === id) {
-//         ingredientNames.push(ingredient.name)
-//       }
-//     })
-//   })
-//   return ingredientNames
-// };
 
 
 function showPantry(){
+  hide(savedRecipeCards)
+  // hide(cookBookCard)
   show(yourPantry)
   hide(homeRecipeList);
   hide(getIdeasView);
   hide(yourCookbook)
   hide(titleBanner)
   show(homeButton)
-  // listIngredients()
-
-
+  hide(getIdeasView);
+  hide(homeRecipeList)
+  hide(cookBookContainer);
 }
 
 function showCookBook() {
@@ -398,5 +513,6 @@ function show(e) {
 function hide(e) {
   e.classList.add('hidden')
 };
+
 
 export {viewCookBookRecipeDetails , deleteRecipe,  renderCookBookCard}
