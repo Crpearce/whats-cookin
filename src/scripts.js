@@ -1,8 +1,9 @@
 import './styles.css';
 import { fetchData } from './apiCalls';
-import './images/turing-logo.png'
-import './images/search-icon.svg'
-import './images/logo.png'
+import './images/turing-logo.png';
+import './images/search-icon.svg';
+// import './images/logo.png';
+import './images/nav_background2.jpg';
 import User from '../src/classes/User';
 import Recipe from '../src/classes/Recipe';
 import RecipeRepository from '../src/classes/RecipeRepository';
@@ -21,40 +22,40 @@ let ingredientsDATA;
 // fetch promise(s)
 
 // // this is the promise all for running on the heroku app
-// Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
-// .then(([ingredientObj, recipeObj, userObj]) => {
-//   allRecipes = recipeObj.recipeData.map(recipe => {
-//     return new Recipe(recipe, ingredientObj.ingredientsData);
-//   })
-//   recipeRepository = new RecipeRepository(allRecipes);
-//   user = new User(userObj.usersData[0], recipeRepository);
-//   console.log(user)
-//   allRecipes.forEach(recipe => {
-//     createRecipeCard(recipe);
-//   });
-//   hide(homeButton)
-// });
-
-
-// //  This is the promise all for running on the local server
-
 Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
-.then(([ingredientsData, recipeData, usersData]) => {
-  ingredientsDATA = ingredientsData;
-  allRecipes = recipeData.map(recipe => {
-    return new Recipe(recipe, ingredientsData);
+.then(([ingredientObj, recipeObj, userObj]) => {
+  allRecipes = recipeObj.recipeData.map(recipe => {
+    return new Recipe(recipe, ingredientObj.ingredientsData);
   })
-  
-  
   recipeRepository = new RecipeRepository(allRecipes);
-  
-  user = new User(usersData[Math.floor(Math.random() * 49)], recipeRepository);
-  
+  user = new User(userObj.usersData[[Math.floor(Math.random() * 49)]], recipeRepository);
+  console.log(user)
   allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
   });
   hide(homeButton)
 });
+
+
+// //  This is the promise all for running on the local server
+
+// Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
+// .then(([ingredientsData, recipeData, usersData]) => {
+//   ingredientsDATA = ingredientsData;
+//   allRecipes = recipeData.map(recipe => {
+//     return new Recipe(recipe, ingredientsData);
+//   })
+//
+//
+//   recipeRepository = new RecipeRepository(allRecipes);
+//
+//   user = new User(usersData[Math.floor(Math.random() * 49)], recipeRepository);
+//
+//   allRecipes.forEach(recipe => {
+//     createRecipeCard(recipe);
+//   });
+//   hide(homeButton)
+// });
 
 
 
@@ -138,7 +139,7 @@ function renderRecipeCard(recipe) {
         <div class="recipe-image-box">
           <img src=${recipe.image} alt="${recipe.name}" class="recipe-display-image">
         </div>
-        <h2>${recipe.name}</h2>
+        <h2 class="recipe-name">${recipe.name}</h2>
           <button class="view-recipe-button" id="${recipe.id}-view-recipe-button" data-id="${recipe.id}">View Recipe</button>
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
@@ -219,7 +220,7 @@ function renderCookBookRecipeDetails(recipeMatch) {
     savedRecipeDetailsView.innerHTML += `<h3>${step}</h3>`
   });
   savedRecipeDetailsView.innerHTML += '<h1> Ingredients </h1>'
-  
+
   let printIngredients = recipeMatch.listIngredients();
   printIngredients.forEach(ingredient => {
     savedRecipeDetailsView.innerHTML += `<li>${ingredient}</li>`
@@ -309,7 +310,7 @@ function showHomepage() {
 // function listIngredients(  ) {
 //   console.log('user logs', user.pantry.pantryContents)
 //   pantryIngredientList.innerHTML += user.pantry.pantryContents
-  
+
 //   // console.log('ingredients data', ingredientsDATA)
 
 //   let getIds = ingredientsDATA.map(ingredient => ingredient.id)
@@ -357,7 +358,7 @@ function showCookBook() {
   hide(homeRecipeList);
   hide(getIdeasView);
   savedRecipeDetailsView.innerHTML = '';
- 
+
   show(cookBookContainer);
   show(savedRecipeCards)
 };
