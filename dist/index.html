@@ -66,11 +66,26 @@
     </section>   
     <section class="pantry hidden" id="pantry">
       <h1>Your Pantry</h1>
-      <ul class="pantry-ingredients" id="pantryIngredients">
 
+         <form class="addYourIngredients">
 
+        <input placeholder="ingredient" class="userAddIngredient"  id="addIngredientBar"/>
+        <input placeholder="amount" type="number"/>
+        <input id="addIngredientToPantryBtn" type="submit" value="Add Ingredient to Pantry">
+      </form>
+      <section class="pantry-container" id="pantryContainer">
+        <div class="pantryHeader" >
+          <h3>Ingredients </h3>
+          <h3>Amounts</h3>
+        </div>
+        <div id="pantryHeader">
 
-      </ul>
+        </div>
+        <section class="list-container" id="listContainer">
+          <ul class="pantry-ingredients" id="pantryIngredients">
+          </ul>
+        </section>
+      </section>
     </section>
   </body>
   <script src="bundle.js"></script>
