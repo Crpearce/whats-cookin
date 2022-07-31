@@ -22,7 +22,7 @@ class Recipe {
   };
   estimateIngredientCost() {
     let estimatedCost = 0;
-    console.log(this.ingredientList)
+    // console.log(this.ingredientList)
     this.ingredients.forEach(ingredient => {
       
       this.ingredientList.forEach(ingredientInfo => {

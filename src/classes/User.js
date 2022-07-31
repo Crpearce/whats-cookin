@@ -3,7 +3,6 @@ import Pantry from './Pantry';
 
 class User {
   constructor(usersData, recipeRepository) {
-    // console.log(usersData)
     this.name = usersData.name
     this.id = usersData.id;
     this.pantry = new Pantry(usersData.pantry);
