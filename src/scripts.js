@@ -21,40 +21,41 @@ let ingredientsDATA;
 // fetch promise(s)
 
 // // this is the promise all for running on the heroku app
-// Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
-// .then(([ingredientObj, recipeObj, userObj]) => {
-//   allRecipes = recipeObj.recipeData.map(recipe => {
-//     return new Recipe(recipe, ingredientObj.ingredientsData);
-//   })
-//   recipeRepository = new RecipeRepository(allRecipes);
-//   user = new User(userObj.usersData[0], recipeRepository);
-//   console.log(user)
-//   allRecipes.forEach(recipe => {
-//     createRecipeCard(recipe);
-//   });
-//   hide(homeButton)
-// });
-
-
-// //  This is the promise all for running on the local server
-
 Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
-.then(([ingredientsData, recipeData, usersData]) => {
-  ingredientsDATA = ingredientsData;
-  allRecipes = recipeData.map(recipe => {
-    return new Recipe(recipe, ingredientsData);
+.then(([ingredientObj, recipeObj, userObj]) => {
+  ingredientsDATA = ingredientObj.ingredientsData;
+  allRecipes = recipeObj.recipeData.map(recipe => {
+    return new Recipe(recipe, ingredientObj.ingredientsData);
   })
-  
-  
   recipeRepository = new RecipeRepository(allRecipes);
-  
-  user = new User(usersData[Math.floor(Math.random() * 49)], recipeRepository);
-  
+  user = new User(userObj.usersData[[Math.floor(Math.random() * 49)]], recipeRepository);
+  console.log(user)
   allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
   });
   hide(homeButton)
 });
+
+
+// //  This is the promise all for running on the local server
+
+// Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
+// .then(([ingredientsData, recipeData, usersData]) => {
+//   ingredientsDATA = ingredientsData;
+//   allRecipes = recipeData.map(recipe => {
+//     return new Recipe(recipe, ingredientsData);
+//   })
+  
+  
+//   recipeRepository = new RecipeRepository(allRecipes);
+  
+//   user = new User(usersData[Math.floor(Math.random() * 49)], recipeRepository);
+  
+//   allRecipes.forEach(recipe => {
+//     createRecipeCard(recipe);
+//   });
+//   hide(homeButton)
+// });
 
 
 
@@ -168,6 +169,9 @@ function viewRecipeDetails(event) {
   hide(cookBookContainer)
   homeRecipeList.innerHTML = ` `;
   recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.dataset.id)
+  console.log(recipeMatch)
+  // console.log(user.pantry.missingIdName(recipeMatch, ingredientsDATA))
+  user.pantry.checkForIngredients(recipeMatch, allRecipes)
   renderRecipeDetails(recipeMatch)
 }
 
@@ -175,6 +179,7 @@ function renderRecipeDetails(recipeMatch) {
   hide(titleBanner)
   homeRecipeList.innerHTML +=
   `<div class="recipe-image-box">
+  '<h1> ${user.pantry.checkForIngredients(recipeMatch, allRecipes)} </h1>'
    <img src=${recipeMatch.image} alt="recipe image" class="recipe-display-image">
   </div>`
   homeRecipeList.innerHTML += `
