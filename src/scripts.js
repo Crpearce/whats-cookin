@@ -314,7 +314,9 @@ function viewRecipeDetails(event) {
   hide(cookBookContainer)
   homeRecipeList.innerHTML = ` `;
   recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.dataset.id)
-  user.pantry.checkForIngredients(recipeMatch, allRecipes)
+  user.pantry.findRecipeIngredients(recipeMatch, allRecipes)
+  user.pantry.checkForIngredients()
+  user.pantry.checkMissingIdNames(recipeMatch)
   renderRecipeDetails(recipeMatch)
 }
 

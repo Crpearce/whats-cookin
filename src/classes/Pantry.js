@@ -1,41 +1,43 @@
 class Pantry{
-  constructor(ingredients, recipeRepository) {
+  constructor(ingredients) {
     this.pantryContents = ingredients;
-    this.allRecipes = recipeRepository;
     this.missingIngredientNames = [];
     this.missingIngredients = [];
+    this.noDuplicateIds;
     this.recipeIngredients;
   };
 
-  checkForIngredients(recipeMatch, recipeData){
-    let recipeIngredients = recipeData.find(recipe => recipe.id === recipeMatch.id).ingredients;
+  findRecipeIngredients(recipeMatch, recipeData) {
+    this.recipeIngredients = recipeData.find(recipe => recipe.id === recipeMatch.id).ingredients;
+  };
+
+  checkForIngredients(){
+    this.missingIngredients = []
     let pantryIngredients = this.pantryContents;
     pantryIngredients.forEach(pantryIngredient => {
-    recipeIngredients.forEach(recipeIngredient => {
-        if((recipeIngredient.id !== pantryIngredient.ingredient) && (recipeIngredient.quantity.amount >= pantryIngredient.amount )) {
+    this.recipeIngredients.forEach(recipeIngredient => {
+        if((recipeIngredient.id !== pantryIngredient.ingredient) || (recipeIngredient.quantity.amount >= pantryIngredient.amount )) {
           this.missingIngredients.push(recipeIngredient.id);
         };
       });
     });
-    let noDuplicateIds = [...new Set(this.missingIngredients)]
+    let noDuplicateIds = [...new Set(this.missingIngredients)];
+    return `You have ${noDuplicateIds.length} missing ingredient(s).`;
+  };
+
+  checkMissingIdNames(recipeMatch) {
+    this.missingIngredientNames = [];
+    let noDuplicateIds = [...new Set(this.missingIngredients)];
     noDuplicateIds.forEach(missingId => {
       recipeMatch.ingredientList.forEach(ingredient => {
         if(ingredient.id === missingId) {
-          this.missingIngredientNames.push(ingredient.name)
+          this.missingIngredientNames.push(ingredient.name);
         };
       });
     });
-    let noDuplicateNames = [...new Set(this.missingIngredientNames)]
-    return `You have ${noDuplicateIds.length} missing ingredients. The ingredients needed are ${noDuplicateNames}.`;
+    let missingNames = [...new Set(this.missingIngredientNames)];
+    return `Ingredients needed to make recipe: ${missingNames}`;
   };
-
-  canCookRecipe() {
-    if(this.missingIngredients === []) {
-      return 'You can cook this recipe'
-    } else {
-      return 'sorry you are missing ingredients to cook this recipe'
-    }
-  }
 };
   
 export default Pantry;
