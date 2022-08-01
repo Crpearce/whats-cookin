@@ -23,24 +23,7 @@ let pantryInfo;
 
 // fetch promise(s)
 
-// // this is the promise all for running on the heroku app
-// Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
-// .then(([ingredientObj, recipeObj, userObj]) => {
-//   allRecipes = recipeObj.recipeData.map(recipe => {
-//     return new Recipe(recipe, ingredientObj.ingredientsData);
-//   })
-//   recipeRepository = new RecipeRepository(allRecipes);
 
-//   user = new User(usersData[0], recipeRepository);
-//   // user = new User(usersData[Math.floor(Math.random() * 49)], recipeRepository);
-  
-
-//   allRecipes.forEach(recipe => {
-//     createRecipeCard(recipe);
-//   });
-//   hide(homeButton)
-//   console.log(user)
-// });
 
 
 // //  This is the promise all for running on the local server
@@ -54,9 +37,11 @@ Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')]
 
 
   recipeRepository = new RecipeRepository(allRecipes);
+
   user = new User(usersData[16], recipeRepository);
 
   // user = new User(usersData[Math.floor(Math.random() * 49)], recipeRepository);
+
 
   allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
@@ -147,8 +132,10 @@ function handleButtons(event) {
       break;
 
     case "add-qty-to-ingregedient-btn":
+
       addIngredient(event)
       break;  
+
 
     case "remove-qty-from-ingregedient-btn":
       removeIngredient(event)
@@ -164,6 +151,7 @@ function handleButtons(event) {
 
 function convertStringToId (event){
   event.preventDefault()
+
   if(addIngredientBar.value === '' || addIngredientQty.value === NaN || addIngredientQty.value === ''){
     pantryHeader.innerHTML += `<p>${addIngredientBar.value} is not a valid entry </p>`
     return
@@ -174,10 +162,11 @@ let findInputObject = ingredientsDATA.find(ingredient => {
   return ingredient.name === makeLowercase
 })
 
-let inputId = findInputObject.id
 
+let inputId = findInputObject.id
   packageUsersIngredient(inputId)
 }
+
 
 function packageUsersIngredient(inputId) {
 
@@ -257,11 +246,13 @@ function addToPantry(newIngredient) {
   })
   .then(response => {
     if(!response.ok) {
-      throw new Error(response.statusText) 
+      throw new Error(response.statusText)
     } else {
     return response.json()}})
+
   .then(newIngredient =>  addToPantryPage(newIngredient))
   .catch(error => 
+
     yourPantry.innerHTML += `<p>${error.message}</p>`
     )
 }
@@ -281,7 +272,7 @@ function addToPantryPage(newIngredient) {
 //eventHandlers:
 function createRecipeCard(recipe) {
   randomCounter++;
-  if (randomCounter <= 5) {
+  if (randomCounter <= 3) {
     let randomizedRecipe = allRecipes[getRandomRecipe(allRecipes)]
     renderRecipeCard(randomizedRecipe);
   };
@@ -293,7 +284,7 @@ function renderRecipeCard(recipe) {
         <div class="recipe-image-box">
           <img src=${recipe.image} alt="${recipe.name}" class="recipe-display-image">
         </div>
-        <h2 class="recipe-name">${recipe.name}</h2>
+        <h2>${recipe.name}</h2>
           <button class="view-recipe-button" id="${recipe.id}-view-recipe-button" data-id="${recipe.id}">View Recipe</button>
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
@@ -305,7 +296,7 @@ function renderAllRecipeCards(recipe) {
         <div class="recipe-image-box">
           <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
         </div>
-        <h3>${recipe.name}</h3>
+        <section class="recipe-title">${recipe.name}</section>
           <button class="view-recipe-button" id="${recipe.id}-view-recipe-button" data-id="${recipe.id}">View Recipe</button>
           <button class="save-button" id="${recipe.id}-save-recipe-button" data-id="${recipe.id}">Save To Cookbook</button>
       </div>`
@@ -331,20 +322,20 @@ function renderRecipeDetails(recipeMatch) {
   hide(titleBanner)
   homeRecipeList.innerHTML +=
   `<div class="recipe-image-box">
-  '<h1> ${user.pantry.checkForIngredients(recipeMatch, allRecipes)} </h1>'
+  '<section class="pantry-check"><i>${user.pantry.checkForIngredients(recipeMatch, allRecipes)}<i></section>'
    <img src=${recipeMatch.image} alt="recipe image" class="recipe-display-image">
   </div>`
   homeRecipeList.innerHTML += `
   <h1>${recipeMatch.name}    <button class="save-button" id="${recipeMatch.id}-save-recipe-button" data-id="${recipeMatch.id}">Save To Cookbook</button></h1>
   `
   let printCost = recipeMatch.estimateIngredientCost();
-  homeRecipeList.innerHTML += `<h3>COST $${printCost}</h3>`
-  homeRecipeList.innerHTML += '<h1> Directions </h1>'
+  homeRecipeList.innerHTML += `<h3> Cost: $${printCost}</h3>`
+  homeRecipeList.innerHTML += '<h3> Directions </h3>'
   let printDirections = recipeMatch.provideRecipeInstructions();
   printDirections.forEach(step => {
-    homeRecipeList.innerHTML += `<h3>${step}</h3>`
+    homeRecipeList.innerHTML += `<h4>${step}</h4>`
   });
-  homeRecipeList.innerHTML += '<h1> Ingredients </h1>'
+  homeRecipeList.innerHTML += '<h3> Ingredients </h3>'
   let printIngredients = recipeMatch.listIngredients();
   printIngredients.forEach(ingredient => {
     homeRecipeList.innerHTML += `<li>${ingredient}</li>`
@@ -370,12 +361,12 @@ function renderCookBookRecipeDetails(recipeMatch) {
   savedRecipeDetailsView.innerHTML += `<h1>${recipeMatch.name}</h1>`
   let printCost = recipeMatch.estimateIngredientCost();
   savedRecipeDetailsView.innerHTML += `<h3>COST $${printCost}</h3>`
-  savedRecipeDetailsView.innerHTML += '<h1> Directions </h1>'
+  savedRecipeDetailsView.innerHTML += '<h3> Directions </h3>'
   let printDirections = recipeMatch.provideRecipeInstructions();
   printDirections.forEach(step => {
-    savedRecipeDetailsView.innerHTML += `<h3>${step}</h3>`
+    savedRecipeDetailsView.innerHTML += `<h4>${step}</h4>`
   });
-  savedRecipeDetailsView.innerHTML += '<h1> Ingredients </h1>'
+  savedRecipeDetailsView.innerHTML += '<h3> Ingredients </h3>'
 
   let printIngredients = recipeMatch.listIngredients();
   printIngredients.forEach(ingredient => {
@@ -413,7 +404,7 @@ function renderCookBookCard(recipe) {
         <div class="recipe-image-box">
           <img src=${recipe.image} alt="recipe image" class="recipe-display-image">
         </div>
-        <h3>${recipe.name}</h3>
+        <section class="recipe-title">${recipe.name}</section>
         <button class="view-COOKBOOK-recipe" id="${recipe.id}-view-recipe-button" data-id="${recipe.id}">View Recipe</button>
         <button class="delete-button">Delete</button>
       </div>`;
@@ -466,7 +457,7 @@ function showHomepage() {
 
 function listUsersIngredients() {
   let usersPantry = user.pantry.pantryContents
- pantryInfo = usersPantry.map(ingredient => { 
+ pantryInfo = usersPantry.map(ingredient => {
    return {id: ingredient.ingredient,  amount: ingredient.amount}
   }
 );
