@@ -3,7 +3,6 @@ class Pantry{
     this.pantryContents = ingredients;
     this.missingIngredientNames = [];
     this.missingIngredients = [];
-    this.noDuplicateIds;
     this.recipeIngredients;
   };
 
@@ -12,33 +11,40 @@ class Pantry{
   };
 
   checkForIngredients(){
-    this.missingIngredients = []
-    let pantryIngredients = this.pantryContents;
-    pantryIngredients.forEach(pantryIngredient => {
+    this.missingIngredients = [];
     this.recipeIngredients.forEach(recipeIngredient => {
-        if((recipeIngredient.id !== pantryIngredient.ingredient) || (recipeIngredient.quantity.amount >= pantryIngredient.amount )) {
-          this.missingIngredients.push(recipeIngredient.id);
-        };
-      });
+      let found = false;
+    this.pantryContents.find(pantryIngredient => {
+      if((recipeIngredient.id === pantryIngredient.ingredient) && (recipeIngredient.id <= pantryIngredient.ingredient)) {
+        found = true;
+      };
     });
-    let noDuplicateIds = [...new Set(this.missingIngredients)];
-    return `You have ${noDuplicateIds.length} missing ingredient(s).`;
+       if(found === false) {
+        this.missingIngredients.push(recipeIngredient.id)
+        };
+    });
+    if(this.missingIngredients.length === 0) {
+      return `<button class="cook-button">Cook Button</button>`;
+    } else {
+      return `You have ${this.missingIngredients.length} missing ingredients.`;
+    }
   };
 
   checkMissingIdNames(recipeMatch) {
     this.missingIngredientNames = [];
-    let noDuplicateIds = [...new Set(this.missingIngredients)];
-    noDuplicateIds.forEach(missingId => {
+    this.missingIngredients.forEach(missingId => {
       recipeMatch.ingredientList.forEach(ingredient => {
         if(ingredient.id === missingId) {
           this.missingIngredientNames.push(ingredient.name);
         };
       });
     });
-    let missingNames = [...new Set(this.missingIngredientNames)];
-    return `Ingredients needed to make recipe: ${missingNames}`;
+    if(this.missingIngredientNames.length === 0) {
+      return 'No missing ingredients'
+    } else {
+    return `Ingredients needed to make recipe: ${this.missingIngredientNames}`;
+    };
   };
 };
   
 export default Pantry;
-

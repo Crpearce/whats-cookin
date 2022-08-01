@@ -332,6 +332,7 @@ function renderCookBookRecipeDetails(recipeMatch) {
   </div>`
   savedRecipeDetailsView.innerHTML += `<h1>${recipeMatch.name}</h1>`
   let printCost = recipeMatch.estimateIngredientCost();
+  homeRecipeList.innerHTML += `<h2>${user.pantry.checkMissingIdNames(recipeMatch)}</h2>`
   savedRecipeDetailsView.innerHTML += `<h3>COST $${printCost}</h3>`
   savedRecipeDetailsView.innerHTML += '<h3> Directions </h3>'
   let printDirections = recipeMatch.provideRecipeInstructions();
