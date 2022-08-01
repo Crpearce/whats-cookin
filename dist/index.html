@@ -37,14 +37,17 @@
       <!-- <div> -->
       <section class="title-container" id="titleBanner" >
         <h1>What's Cookin'</h1>
-            <div class="featured-recipes-wrapper"></div>
       </section>
+        <article class="feature-title">Featured Recipes</article>
+          <h5> Don't see any you like? Click on the "Get Some Ideas!" above.</h5>
       <!-- </div> -->
-      <section class="recipe-list-container" id="recipeList">
+      <div class="featured-recipes-wrapper">
+        <section class="recipe-list-container" id="recipeList">
+      </div>
       </section>
     </section>
     <section class="view recipe-ideas-view hidden" id="getIdeasView">
-      <div class="ideas-wrapper"></div>
+      <!-- <div class="ideas-wrapper"></div> -->
     </section>
     <section class="cook-Book-Container hidden" id="cookBookContainer">
       <section class="cookbook-container" id="yourCookbook" >
@@ -62,9 +65,9 @@
 
          <form class="addYourIngredients">
 
-        <input placeholder="ingredient" class="userAddIngredient"  id="addIngredientBar"/>
-        <input placeholder="amount" type="number"/>
-        <input id="addIngredientToPantryBtn" type="submit" value="Add Ingredient to Pantry">
+        <input placeholder="ingredient" class="user-add-ingredient"  id="addIngredientBar"/>
+        <input class="add-amount" placeholder="amount" type="number"/>
+        <input class="add-ingredient-to-pantry-btn" id="addIngredientToPantryBtn" type="submit" value="Add Ingredient to Pantry">
       </form>
       <section class="pantry-container" id="pantryContainer">
         <div class="pantryHeader" >

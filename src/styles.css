@@ -29,10 +29,52 @@ h1{
   /* position: fixed; */
   font-size: 100px;
   background-color: #FFA000;
+  line-height: 1.6;
 }
 
+h2{
+font-size: 40px;
+text-align: left;
+/* font-style: italic; */
+}
+
+.pantry-check{
+  font-size:30px;
+}
+
+/* .search-buttons, */
+.save-button,
+.delete-button,
+.view-COOKBOOK-recipe,
+.view-recipe-button,
+.user-add-ingredient,
+.add-amount,
+.add-ingredient-to-pantry-btn{
+font-size: 20px;
+}
+
+.recipe-title{
+  font-size: 35px;
+}
+
+
 h3{
-  font-size: 20px;
+  font-size: 45px;
+  text-decoration: underline overline;
+}
+
+h4,
+li{
+  font-size: 30px;
+}
+
+.feature-title{
+  font-size: 60px;
+}
+
+h5{
+  font-size: 35px;
+  margin-bottom: 5%;
 }
 
 .search-buttons{
@@ -41,15 +83,19 @@ h3{
   justify-content: center;
   padding: 1rem;
   padding-top: 100px;
+  font-size: 30px;
 }
 
 .query1,
 .query2{
-  height: 30px;
-  width: 100px;
+  height: 55px;
+  width: 200px;
+  font-size: 25px;
+  line-height:normal;
 }
 
 .user-options {
+  line-height: 1.6;
   align-items: center;
   appearance: none;
   background-color: #FFC107;
@@ -95,24 +141,31 @@ h3{
   transform: translateY(2px);
 }
 
-.recipe-list-container,
-.recipe-ideas-view,
-.cook-Book-Container {
+/* .recipe-list-container{
+  display: flex;
+} */
+.saved-recipes-view,
+.recipe-ideas-view {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
   grid-column-gap: 5px;
   grid-row-gap: 5px;
 }
-.recipe-card {
+
+/* .saved-recipes-view {
   display: flex;
+} */
+
+.recipe-card {
+  display: inline flex;
   align-items: center;
   flex-direction: column;
 }
 .recipe-display-image {
   box-shadow: 1px 0px 4px 3px rgba(0,0,0,0.2);
   border-radius: 20px;
-  width: 75%;
+  width: 50%;
   display:flex;
   justify-content: center;
   align-items: center;
