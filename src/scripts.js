@@ -34,15 +34,10 @@ Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')]
   allRecipes = recipeData.map(recipe => {
     return new Recipe(recipe, ingredientsData);
   })
-
-
   recipeRepository = new RecipeRepository(allRecipes);
-
-  user = new User(usersData[16], recipeRepository);
-
+  user = new User(usersData[9], recipeRepository);
+  console.log(user)
   // user = new User(usersData[Math.floor(Math.random() * 49)], recipeRepository);
-
-
   allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
   });
@@ -314,6 +309,7 @@ function viewRecipeDetails(event) {
   hide(cookBookContainer)
   homeRecipeList.innerHTML = ` `;
   recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.dataset.id)
+  console.log('recipeMatch',recipeMatch)
   user.pantry.findRecipeIngredients(recipeMatch, allRecipes)
   user.pantry.checkForIngredients()
   user.pantry.checkMissingIdNames(recipeMatch)
@@ -331,6 +327,7 @@ function renderRecipeDetails(recipeMatch) {
   <h1>${recipeMatch.name}    <button class="save-button" id="${recipeMatch.id}-save-recipe-button" data-id="${recipeMatch.id}">Save To Cookbook</button></h1>
   `
   let printCost = recipeMatch.estimateIngredientCost();
+  homeRecipeList.innerHTML += `<h2>${user.pantry.checkMissingIdNames(recipeMatch)}</h2>`
   homeRecipeList.innerHTML += `<h3> Cost: $${printCost}</h3>`
   homeRecipeList.innerHTML += '<h3> Directions </h3>'
   let printDirections = recipeMatch.provideRecipeInstructions();
