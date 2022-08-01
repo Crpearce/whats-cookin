@@ -15,3 +15,4 @@ let fetchData = (dataFileName) =>
     .catch(err => alert('there was an error in providing you the information'))
 
 export {fetchData}
+

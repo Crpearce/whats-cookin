@@ -19,37 +19,25 @@ let ingredientNames = [];
 let randomCounter = 0;
 let ingredientsDATA;
 let pantryInfo;
+// let currentIndex;
 
 
 // fetch promise(s)
 
-
-
-
 // //  This is the promise all for running on the local server
-
 Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
 .then(([ingredientsData, recipeData, usersData]) => {
   ingredientsDATA = ingredientsData;
   allRecipes = recipeData.map(recipe => {
     return new Recipe(recipe, ingredientsData);
   })
-
-
   recipeRepository = new RecipeRepository(allRecipes);
-
   user = new User(usersData[16], recipeRepository);
-
-  // user = new User(usersData[Math.floor(Math.random() * 49)], recipeRepository);
-
-
   allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
   });
   hide(homeButton)
 });
-
-
 
 //query selectors:
 document.getElementsByClassName('save-button')
@@ -60,10 +48,8 @@ let yourPantry = document.getElementById('pantry');
 let pantryHeader = document.getElementById('pantryHeader');
 let pantryIngredientList = document.getElementById('pantryIngredients');
 
-// user-submits
-// let pantryAmountsNumber = document.getElementById('pantryAmounts');
 
-// let qtyInPantry = pantryIngredientList.children;
+
 let cookBookContainer = document.getElementById('cookBookContainer');
 let searchButtons = document.getElementById('searchButtons');
 let emptyCookBookMessage = document.getElementById('emptyCookBookMessage');
@@ -151,26 +137,23 @@ function handleButtons(event) {
 
 function convertStringToId (event){
   event.preventDefault()
-
   if(addIngredientBar.value === '' || addIngredientQty.value === NaN || addIngredientQty.value === ''){
     pantryHeader.innerHTML += `<p>${addIngredientBar.value} is not a valid entry </p>`
     return
   } 
- 
 let makeLowercase = addIngredientBar.value.toLowerCase();
 let findInputObject = ingredientsDATA.find(ingredient => {
+  if(!ingredient){
+    pantryHeader.innerHTML += `<p>${addIngredientBar.value} is not a valid entry </p>`
+  } else 
   return ingredient.name === makeLowercase
 })
-
-
 let inputId = findInputObject.id
   packageUsersIngredient(inputId)
 }
 
 
 function packageUsersIngredient(inputId) {
-
-  console.log("what is this?" , addIngredientQty.value)
  let newIngredient = {
     userID: user.id,
     ingredientID: inputId,
@@ -211,51 +194,40 @@ function updatePantry(newIngredient, event) {
     body: JSON.stringify(newIngredient)
   })
   .then(response => {if(!response.ok) {throw new Error(response.statusText) } else {return response.json()}})
-  .then(data => fetch('http://localhost:3001/api/v1/users')
-    .then(response => response.json())
-    .catch(error => yourPantry.innerHTML += `<p>${error.message}</p>`)
+  .then(data => fetchData('users')
+  .then(userData => {
+    user = new User(userData[16]);
+    listUsersIngredients()
+  })
   )
   .catch(error => yourPantry.innerHTML += `<p>${error.message}</p>`)
 }    
 
+
 // //THIS IS FOR AN EXAMPLE
 ////+function postOnPage () {
 
-//   fetch('http://localhost:3001/api/v1/users', {
-//       method: 'POST',
-//       body: JSON.stringify(obj),
-//       headers: {
-//           'Content-Type': 'application/json'
-//       }
-//   })
-//   .then(response => response.json())
-//   .then(data => fetch('http://localhost:3001/api/v1/users')
-//       .then(response => response.json())
-//       .then(data => console.log(data))
-//       .catch(err => console.log(err))  
-//   )
-//   .catch(err => console.log(err))
-// //}
-
-function addToPantry(newIngredient) {
-  event.preventDefault()
-  fetch("http://localhost:3001/api/v1/users", {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newIngredient)
-  })
-  .then(response => {
-    if(!response.ok) {
-      throw new Error(response.statusText)
-    } else {
-    return response.json()}})
-
-  .then(newIngredient =>  addToPantryPage(newIngredient))
-  .catch(error => 
-
-    yourPantry.innerHTML += `<p>${error.message}</p>`
-    )
-}
+  function addToPantry(newIngredient) {
+    event.preventDefault()
+    fetch("http://localhost:3001/api/v1/users", {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newIngredient)
+    })
+    .then(response => {
+      if(!response.ok) {
+        throw new Error(response.statusText)
+      } else {
+      return response.json()}})
+      .then(data => fetchData('users')
+      .then(userData => {
+        user = new User(userData[16]);
+        listUsersIngredients()
+      })
+      )
+    .then(newIngredient =>  addToPantryPage(newIngredient))
+    .catch(error => yourPantry.innerHTML += `<p>${error.message}</p>`)
+  }
 
 function addToPantryPage(newIngredient) {
   console.log(newIngredient)
@@ -265,8 +237,6 @@ function addToPantryPage(newIngredient) {
     <button class="add-qty-to-ingregedient-btn">Add +1</button>
     <button class="remove-qty-from-ingregedient-btn">Remove 1</button>
   </li>`
-    
-  
 }
 
 //eventHandlers:
@@ -458,6 +428,7 @@ function showHomepage() {
 
 
 function listUsersIngredients() {
+  pantryIngredientList.innerHTML = " "
   let usersPantry = user.pantry.pantryContents
  pantryInfo = usersPantry.map(ingredient => {
    return {id: ingredient.ingredient,  amount: ingredient.amount}
@@ -475,8 +446,6 @@ pantryInfo.forEach(ingredientObj => {
     })
   })
 };
-
-
 
 function showPantry(){
   hide(savedRecipeCards)
@@ -547,5 +516,9 @@ function hide(e) {
   e.classList.add('hidden')
 };
 
+// function getRandomIndex() {
+//   currentIndex = Math.floor(Math.random() * 49)
+
+// }
 
 export {viewCookBookRecipeDetails , deleteRecipe,  renderCookBookCard}
