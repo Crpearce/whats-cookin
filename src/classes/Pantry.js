@@ -7,10 +7,11 @@ class Pantry{
   };
 
   findRecipeIngredients(recipeMatch, recipeData) {
+
     this.recipeIngredients = recipeData.find(recipe => recipe.id === recipeMatch.id).ingredients;
   };
-
-  checkForIngredients(){
+  
+  checkForIngredients(recipeMatch){
     this.missingIngredients = [];
     this.recipeIngredients.forEach(recipeIngredient => {
       let found = false;
@@ -24,7 +25,7 @@ class Pantry{
         };
     });
     if(this.missingIngredients.length === 0) {
-      return `<button class="cook-button">Cook Button</button>`;
+      return `<button class="cook-button"id="${recipeMatch.id}"style="height:100px;width:200px">Cook Recipe</button>`;
     } else {
       return `You have ${this.missingIngredients.length} missing ingredients.`;
     }

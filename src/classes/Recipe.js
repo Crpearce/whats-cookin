@@ -23,15 +23,14 @@ class Recipe {
   estimateIngredientCost() {
     let estimatedCost = 0;
     this.ingredients.forEach(ingredient => {
-      this.ingredientList.forEach(ingredientInfo => {
-        if(ingredient.id === ingredientInfo.id) {
-          estimatedCost += ((ingredient.quantity.amount * ingredientInfo.estimatedCostInCents) / 100);
-        }
-      })
-    })
-    return parseFloat(estimatedCost.toFixed(2))
+    this.ingredientList.forEach(ingredientInfo => {
+      if(ingredient.id === ingredientInfo.id) {
+        estimatedCost += ((ingredient.quantity.amount * ingredientInfo.estimatedCostInCents) / 100);
+      };
+    });
+   });
+    return parseFloat(estimatedCost.toFixed(2));
   };
-
   provideRecipeInstructions() {
     let steps = this.instructions.map(step => {
       return `Step ${step.number}: ${step.instruction}`
