@@ -19,13 +19,13 @@ describe('Pantry', () => {
     recipe2 = new Recipe(recipeData[1], ingredientData);
     recipeRepository = new RecipeRepository([recipe1, recipe2]);
     user = new User(usersData[0], recipeRepository);
-    pantry = new Pantry(user.pantry.pantryContents, recipeRepository)      
+    pantry = new Pantry(user.pantry.pantryContents, recipeRepository)
   });
-      
+
   it('Should be a function', () => {
     expect(Pantry).to.be.a('function');
   });
-      
+
   it('Should be an instance of Pantry', () => {
     expect(pantry).to.be.instanceOf(Pantry);
   });
