@@ -22,13 +22,8 @@ class Recipe {
   };
   estimateIngredientCost() {
     let estimatedCost = 0;
-    console.log(this.ingredientList)
-
     this.ingredients.forEach(ingredient => {
-      
       this.ingredientList.forEach(ingredientInfo => {
-
-        
         if(ingredient.id === ingredientInfo.id) {
           estimatedCost += ((ingredient.quantity.amount * ingredientInfo.estimatedCostInCents) / 100);
         }
@@ -36,17 +31,6 @@ class Recipe {
     })
     return parseFloat(estimatedCost.toFixed(2))
   };
-  //POTENTIAL REFACTOR TO RID OF DOUBLE FOREACH
-  // this.ingredients.forEach(ingredient => {
-  //   const foundIngredient = this.ingredientList.find(ingredientInfo => {
-  //      return ingredient.id === ingredientInfo.id
-  //    })
-  //    console.log(foundIngredient);
-
-  //    foundIngredient estimatedCost += ((ingredient.quantity.amount * ingredientInfo.estimatedCostInCents) / 100);
-  //    }
-  //  })
-  //  return estimatedCost.toFixed(2);
 
   provideRecipeInstructions() {
     let steps = this.instructions.map(step => {
