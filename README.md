@@ -1,7 +1,7 @@
 # What's Cookin'
 
 ## Abstract
-Ever wondered what to cook? Use this repo to help you discover some brand new recipes and be able to save them! This was a group project assigned by the [Turing School of Software and Design](https://turing.edu/). This was a recipe tracking application which utilized a variety of technologies, which are listed below. The project goals for Part I were to: implement ES6 classes that communicate to each other as needed, use object and array prototype methods to perform data manipulation, create a user interface that is easy to use and clearly displays information, implement a robust testing suite using TDD, and make network requests to retrieve data. The project goals for Part II were to: work with local servers and make network requests to API endpoints to retrieve and manipulate data, refactor code to DRY up repetitive logic, follow best practices for accessibility, and take part in a technical interview. 
+Ever wondered what to cook? Use this repo to help you discover some brand new recipes and be able to save them! This was a group project assigned by the [Turing School of Software and Design](https://turing.edu/). This was a recipe tracking application which utilized a variety of technologies, which are listed below. The project goals for Part I were to: implement ES6 classes that communicate to each other as needed, use object and array prototype methods to perform data manipulation, create a user interface that is easy to use and clearly displays information, implement a robust testing suite using TDD, and make network requests to retrieve data. The project goals for Part II were to: work with local servers and make network requests to API endpoints to retrieve and manipulate data, refactor code to DRY up repetitive logic, follow best practices for accessibility, and take part in a technical interview.
 
 ![What's Cookin' gif](https://user-images.githubusercontent.com/102000070/179655231-043f242a-cccc-415b-a5e1-ad9633338926.gif)
 
@@ -38,6 +38,7 @@ The project specs and rubric for What's Cookin' Part II can be found [here](http
 - TDD and Class Architecture
 - Event Delegation
 - Nested Data
+- POST refresh
 
 ## Wins
 - Accessibility
@@ -45,7 +46,10 @@ The project specs and rubric for What's Cookin' Part II can be found [here](http
 - API calls
 
 ## Future Extensions
-- create login page
+- User can remove decimal amounts from their pantry.
+- Only one search bar to handle multiple search queries.
+- More concise error handling for adding and removing ingredients from pantry.
+- Create login page.
 
 ## Contributors
 - Ali Nix [LinkedIn](https://www.linkedin.com/in/ali-nix-38b9b9126/) [GitHub](https://github.com/alinix1)
