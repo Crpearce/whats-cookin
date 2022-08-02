@@ -16,37 +16,25 @@ let ingredientNames = [];
 let randomCounter = 0;
 let ingredientsDATA;
 let pantryInfo;
+// let currentIndex;
 
 
 // fetch promise(s)
 
-
-
-
 // //  This is the promise all for running on the local server
-
 Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')])
 .then(([ingredientsData, recipeData, usersData]) => {
   ingredientsDATA = ingredientsData;
   allRecipes = recipeData.map(recipe => {
     return new Recipe(recipe, ingredientsData);
   })
-
-
   recipeRepository = new RecipeRepository(allRecipes);
-
   user = new User(usersData[16], recipeRepository);
-
-  // user = new User(usersData[Math.floor(Math.random() * 49)], recipeRepository);
-
-
   allRecipes.forEach(recipe => {
     createRecipeCard(recipe);
   });
   hide(homeButton)
 });
-
-
 
 //query selectors:
 document.getElementsByClassName('save-button')
@@ -59,10 +47,8 @@ let pantryIngredientList = document.getElementById('pantryIngredients');
 let featureTitle = document.getElementById('featureTitle');
 let featureMessage = document.getElementById('featureMessage');
 
-// user-submits
-// let pantryAmountsNumber = document.getElementById('pantryAmounts');
 
-// let qtyInPantry = pantryIngredientList.children;
+
 let cookBookContainer = document.getElementById('cookBookContainer');
 let searchButtons = document.getElementById('searchButtons');
 let emptyCookBookMessage = document.getElementById('emptyCookBookMessage');
@@ -155,12 +141,12 @@ function convertStringToId (event){
   if(addIngredientBar.value === '' || addIngredientQty.value === NaN || addIngredientQty.value === ''){
     pantryHeader.innerHTML += `<p>${addIngredientBar.value} is not a valid entry </p>`
     return
-  }
+  } 
 let makeLowercase = addIngredientBar.value.toLowerCase();
 let findInputObject = ingredientsDATA.find(ingredient => {
-if(!ingredient){
+  if(!ingredient){
     pantryHeader.innerHTML += `<p>${addIngredientBar.value} is not a valid entry </p>`
-  } else
+  } else 
   return ingredient.name === makeLowercase
 })
 let inputId = findInputObject.id
@@ -242,7 +228,6 @@ function addToPantry(newIngredient) {
      )
     .catch(error => yourPantry.innerHTML += `<p>${error.message}</p>`)
   }
-
 
 //eventHandlers:
 function createRecipeCard(recipe) {
@@ -340,6 +325,7 @@ function renderCookBookRecipeDetails(recipeMatch) {
   </div>`
   savedRecipeDetailsView.innerHTML += `<h1>${recipeMatch.name}</h1>`
   let printCost = recipeMatch.estimateIngredientCost();
+  homeRecipeList.innerHTML += `<h2>${user.pantry.checkMissingIdNames(recipeMatch)}</h2>`
   savedRecipeDetailsView.innerHTML += `<h3>COST $${printCost}</h3>`
   savedRecipeDetailsView.innerHTML += '<h3> Directions </h3>'
   let printDirections = recipeMatch.provideRecipeInstructions();
@@ -537,5 +523,9 @@ function hide(e) {
   e.classList.add('hidden')
 };
 
+// function getRandomIndex() {
+//   currentIndex = Math.floor(Math.random() * 49)
+
+// }
 
 export {viewCookBookRecipeDetails , deleteRecipe,  renderCookBookCard}
