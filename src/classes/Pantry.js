@@ -39,6 +39,5 @@ class Pantry{
     return `Ingredients needed to make recipe: ${missingNames}`;
   };
 };
-  
-export default Pantry;
 
+export default Pantry;

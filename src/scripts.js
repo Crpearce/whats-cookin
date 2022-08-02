@@ -1,8 +1,5 @@
 import './styles.css';
 import { fetchData } from './apiCalls';
-import './images/turing-logo.png';
-import './images/search-icon.svg';
-// import './images/logo.png';
 import './images/nav_background2.jpg';
 import User from '../src/classes/User';
 import Recipe from '../src/classes/Recipe';
@@ -59,6 +56,8 @@ let yourCookbook = document.getElementById('yourCookbook');
 let yourPantry = document.getElementById('pantry');
 let pantryHeader = document.getElementById('pantryHeader');
 let pantryIngredientList = document.getElementById('pantryIngredients');
+let featureTitle = document.getElementById('featureTitle');
+let featureMessage = document.getElementById('featureMessage');
 
 // user-submits
 // let pantryAmountsNumber = document.getElementById('pantryAmounts');
@@ -76,6 +75,7 @@ let addIngredientQty = document.getElementById('addIngredientQty');
 let addIngredientToPantryBtn = document.getElementById('addIngredientToPantryBtn');
 let searchNameBar = document.getElementById('searchNameBar');
 let searchTagBar = document.getElementById('searchTagBar');
+let span = document.getElementById('span');
 let getIdeasView = document.getElementById('getIdeasView');
 let savedRecipeCards = document.getElementById('savedRecipeCards');
 let homeRecipeList = document.getElementById('recipeList');
@@ -83,6 +83,7 @@ let homeButton = document.getElementById('homePageBtn')
 let savedRecipeDetailsView = document.getElementById('savedRecipeDetailsView')
 let pantryContainer = document.getElementById('pantryContainer')
 let pantryListContainer = document.getElementById('listContainer')
+
 
 //eventListeners:
 window.onload = function () {
@@ -134,7 +135,7 @@ function handleButtons(event) {
     case "add-qty-to-ingregedient-btn":
 
       addIngredient(event)
-      break;  
+      break;
 
 
     case "remove-qty-from-ingregedient-btn":
@@ -151,26 +152,22 @@ function handleButtons(event) {
 
 function convertStringToId (event){
   event.preventDefault()
-
   if(addIngredientBar.value === '' || addIngredientQty.value === NaN || addIngredientQty.value === ''){
     pantryHeader.innerHTML += `<p>${addIngredientBar.value} is not a valid entry </p>`
     return
-  } 
- 
+  }
 let makeLowercase = addIngredientBar.value.toLowerCase();
 let findInputObject = ingredientsDATA.find(ingredient => {
+if(!ingredient){
+    pantryHeader.innerHTML += `<p>${addIngredientBar.value} is not a valid entry </p>`
+  } else
   return ingredient.name === makeLowercase
 })
-
-
 let inputId = findInputObject.id
   packageUsersIngredient(inputId)
 }
 
-
 function packageUsersIngredient(inputId) {
-
-  console.log("what is this?" , addIngredientQty.value)
  let newIngredient = {
     userID: user.id,
     ingredientID: inputId,
@@ -191,9 +188,7 @@ function addIngredient(event, number) {
   updatePantry(newIngredient, event)
 }
 
-
 function removeIngredient(event, number) {
-  console.log(event)
   event.preventDefault()
   let newIngredient = {
     userID: user.id,
@@ -211,66 +206,47 @@ function updatePantry(newIngredient, event) {
     body: JSON.stringify(newIngredient)
   })
   .then(response => {if(!response.ok) {throw new Error(response.statusText) } else {return response.json()}})
-  .then(data => fetch('http://localhost:3001/api/v1/users')
-    .then(response => response.json())
-    .catch(error => yourPantry.innerHTML += `<p>${error.message}</p>`)
+  .then(data => fetchData('users')
+  .then(userData => {
+      userData.forEach(person => {
+      if(person.id === newIngredient.userID) {
+      user = new User(person);
+    listUsersIngredients()
+      }
+  })
+})
   )
   .catch(error => yourPantry.innerHTML += `<p>${error.message}</p>`)
-}    
-
-// //THIS IS FOR AN EXAMPLE
-////+function postOnPage () {
-
-//   fetch('http://localhost:3001/api/v1/users', {
-//       method: 'POST',
-//       body: JSON.stringify(obj),
-//       headers: {
-//           'Content-Type': 'application/json'
-//       }
-//   })
-//   .then(response => response.json())
-//   .then(data => fetch('http://localhost:3001/api/v1/users')
-//       .then(response => response.json())
-//       .then(data => console.log(data))
-//       .catch(err => console.log(err))  
-//   )
-//   .catch(err => console.log(err))
-// //}
+}
 
 function addToPantry(newIngredient) {
-  event.preventDefault()
-  fetch("http://localhost:3001/api/v1/users", {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newIngredient)
-  })
-  .then(response => {
-    if(!response.ok) {
-      throw new Error(response.statusText)
-    } else {
-    return response.json()}})
+    fetch("http://localhost:3001/api/v1/users", {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newIngredient)
+    })
+    .then(response => {
+      if(!response.ok) {
+        throw new Error(response.statusText)
+      } else {
+      return response.json()}})
+      .then(data => fetchData('users')
+      .then(userData => {
+        userData.forEach(person => {
+          if(person.id === newIngredient.userID) {
+          user = new User(person);
+          listUsersIngredients()
+          }
+        })
+      })
+     )
+    .catch(error => yourPantry.innerHTML += `<p>${error.message}</p>`)
+  }
 
-  .then(newIngredient =>  addToPantryPage(newIngredient))
-  .catch(error => 
-
-    yourPantry.innerHTML += `<p>${error.message}</p>`
-    )
-}
-
-function addToPantryPage(newIngredient) {
-  console.log(newIngredient)
-    pantryHeader.innerHTML = ''
-    pantryIngredientList.innerHTML += `<li >Ingredient: ${addIngredientBar.value}
-    --->amount:${addIngredientQty.value}
-    <button class="add-qty-to-ingregedient-btn">Add +1</button>
-    <button class="remove-qty-from-ingregedient-btn">Remove 1</button>
-  </li>`
-    
-  
-}
 
 //eventHandlers:
 function createRecipeCard(recipe) {
+  titleBanner.innerHTML = `<h1>What's Cookin' ${user.name}</h1>`
   randomCounter++;
   if (randomCounter <= 3) {
     let randomizedRecipe = allRecipes[getRandomRecipe(allRecipes)]
@@ -312,6 +288,8 @@ function viewRecipeDetails(event) {
   show(homeRecipeList)
   hide(getIdeasView)
   hide(cookBookContainer)
+  hide(featureTitle);
+  hide(featureMessage);
   homeRecipeList.innerHTML = ` `;
   recipeMatch = allRecipes.find((recipe) => recipe.id == event.target.dataset.id)
   user.pantry.findRecipeIngredients(recipeMatch, allRecipes)
@@ -415,14 +393,14 @@ function renderCookBookCard(recipe) {
 }
 
 function showRecipeIdeas() {
-  searchNameBar.value = null;
-  searchTagBar.value = null;
   hide(yourPantry)
   show(searchButtons)
   show(goToCookBook)
   hide(getIdeasButton)
   show(homeButton)
   hide(titleBanner)
+  hide(featureTitle)
+  hide(featureMessage)
   getIdeasView.innerHTML = `<section class="get-ideas-container" id="getIdeasBanner" >
   <h1>All Recipes</h1>
  </section>`
@@ -432,6 +410,9 @@ function showRecipeIdeas() {
   allRecipes.forEach(recipe => {
     renderAllRecipeCards(recipe)
   });
+  hide(searchTagBar);
+  hide(searchNameBar);
+  hide(span);
 };
 
 function showHomepage() {
@@ -443,9 +424,6 @@ function showHomepage() {
   searchTagBar.value = null;
   show(searchButtons)
   show(titleBanner)
-  homeView.innerHTML = `<section class="title-container" id="titleBanner" >
-  <h1>What's Cookin'</h1>
- </section>`
   randomCounter = 0;
   homeRecipeList.innerHTML = ' ';
   show(homeRecipeList);
@@ -454,10 +432,15 @@ function showHomepage() {
     createRecipeCard(recipe)
   });
   hide(cookBookContainer);
+  show(featureTitle)
+  show(featureMessage)
+  show(searchTagBar);
+  show(searchNameBar);
+  show(span);
 };
 
-
 function listUsersIngredients() {
+  pantryIngredientList.innerHTML = " "
   let usersPantry = user.pantry.pantryContents
  pantryInfo = usersPantry.map(ingredient => {
    return {id: ingredient.ingredient,  amount: ingredient.amount}
@@ -476,8 +459,6 @@ pantryInfo.forEach(ingredientObj => {
   })
 };
 
-
-
 function showPantry(){
   hide(savedRecipeCards)
   // hide(cookBookCard)
@@ -490,6 +471,11 @@ function showPantry(){
   hide(getIdeasView);
   hide(homeRecipeList)
   hide(cookBookContainer);
+  hide(featureTitle);
+  hide(featureMessage);
+  hide(searchTagBar);
+  hide(searchNameBar);
+  hide(span);
 }
 
 function showCookBook() {
@@ -509,6 +495,11 @@ function showCookBook() {
 
   show(cookBookContainer);
   show(savedRecipeCards)
+  hide(featureTitle)
+  hide(featureMessage)
+  hide(searchTagBar);
+  hide(searchNameBar);
+  hide(span);
 };
 
 function searchAllRecipes() {
@@ -522,7 +513,6 @@ function searchAllRecipes() {
     })
   }
 };
-
 function filterAllRecipes() {
   let recipeMatch = user.filterAllByTag(searchTagBar.value)
   homeRecipeList.innerHTML = ` `
