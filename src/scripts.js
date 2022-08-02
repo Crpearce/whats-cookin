@@ -33,8 +33,8 @@ Promise.all([fetchData('ingredients'), fetchData('recipes'), fetchData('users')]
 });
 
 //query selectors:
-document.getElementsByClassName('save-button')
-let homeView = document.getElementsByClassName('main-view')
+document.getElementsByClassName('save-button');
+let homeView = document.getElementsByClassName('main-view');
 let getIdeasButton = document.getElementById('getIdeas');
 let yourCookbook = document.getElementById('yourCookbook');
 let yourPantry = document.getElementById('pantry');
@@ -57,10 +57,10 @@ let span = document.getElementById('span');
 let getIdeasView = document.getElementById('getIdeasView');
 let savedRecipeCards = document.getElementById('savedRecipeCards');
 let homeRecipeList = document.getElementById('recipeList');
-let homeButton = document.getElementById('homePageBtn')
-let savedRecipeDetailsView = document.getElementById('savedRecipeDetailsView')
-let pantryContainer = document.getElementById('pantryContainer')
-let pantryListContainer = document.getElementById('listContainer')
+let homeButton = document.getElementById('homePageBtn');
+let savedRecipeDetailsView = document.getElementById('savedRecipeDetailsView');
+let pantryContainer = document.getElementById('pantryContainer');
+let pantryListContainer = document.getElementById('listContainer');
 
 //eventListeners:
 window.onload = function () {
@@ -73,11 +73,11 @@ addIngredientBar.addEventListener('keypress', (event) => {
 })
 getIdeasButton.addEventListener('click', showRecipeIdeas);
 homeButton.addEventListener('click', showHomepage);
-goToPantry.addEventListener('click', showPantry)
+goToPantry.addEventListener('click', showPantry);
 searchNameBar.addEventListener('input', searchAllRecipes);
 searchTagBar.addEventListener('input', filterAllRecipes);
-addIngredientToPantryBtn.addEventListener('click', handleButtons)
-pantryContainer.addEventListener('click', handleButtons)
+addIngredientToPantryBtn.addEventListener('click', handleButtons);
+pantryContainer.addEventListener('click', handleButtons);
 getIdeasView.addEventListener('click', handleButtons);
 goToCookBook.addEventListener('click', showCookBook);
 homeRecipeList.addEventListener('click', handleButtons);
@@ -116,14 +116,14 @@ function handleButtons(event) {
   default:
       break;
   }
-}
+};
 
 function convertStringToId (event){
   event.preventDefault()
   if(addIngredientBar.value === '' || addIngredientQty.value === NaN || addIngredientQty.value === ''){
     pantryHeader.innerHTML += `<p>${addIngredientBar.value} is not a valid entry </p>`
     return
-  } 
+  }
 let makeLowercase = addIngredientBar.value.toLowerCase();
 let findInputObject = ingredientsDATA.find(ingredient => {
   if(!ingredient){
@@ -133,7 +133,7 @@ let findInputObject = ingredientsDATA.find(ingredient => {
 })
 let inputId = findInputObject.id
   packageUsersIngredient(inputId)
-}
+};
 
 function packageUsersIngredient(inputId) {
  let newIngredient = {
@@ -227,7 +227,7 @@ function createRecipeCard(recipe) {
   titleBanner.innerHTML = `<h1>What's Cookin' ${user.name}</h1>`
   randomCounter++;
   if (randomCounter <= 3) {
-    let randomizedRecipe = allRecipes[getRandomRecipe(allRecipes)] 
+    let randomizedRecipe = allRecipes[getRandomRecipe(allRecipes)]
     renderRecipeCard(randomizedRecipe);
   };
 };
@@ -465,8 +465,8 @@ function showCookBook() {
   searchTagBar.value = null;
   show(searchButtons)
   homeRecipeList.innerHTML = ' ';
-  show(yourCookbook)
-  hide(titleBanner)
+  show(yourCookbook);
+  hide(titleBanner);
   hide(homeRecipeList);
   hide(getIdeasView);
   savedRecipeDetailsView.innerHTML = '';
