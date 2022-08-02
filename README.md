@@ -3,7 +3,7 @@
 ## Abstract
 Ever wondered what to cook? Use this repo to help you discover some brand new recipes and be able to save them! This was a group project assigned by the [Turing School of Software and Design](https://turing.edu/). This was a recipe tracking application which utilized a variety of technologies, which are listed below. The project goals for Part I were to: implement ES6 classes that communicate to each other as needed, use object and array prototype methods to perform data manipulation, create a user interface that is easy to use and clearly displays information, implement a robust testing suite using TDD, and make network requests to retrieve data. The project goals for Part II were to: work with local servers and make network requests to API endpoints to retrieve and manipulate data, refactor code to DRY up repetitive logic, follow best practices for accessibility, and take part in a technical interview.
 
-![What's Cookin' gif](https://user-images.githubusercontent.com/102000070/179655231-043f242a-cccc-415b-a5e1-ad9633338926.gif)
+![What's Cookin' mov](https://user-images.githubusercontent.com/28677929/182286365-33828a29-f8a4-4bd4-8f24-950866cb2a5a.mov)
 
 ## Set Up
 - Clone down the Repo `git clone` https://github.com/turingschool-examples/whats-cookin-starter-kit
