@@ -45,6 +45,14 @@ The project specs and rubric for What's Cookin' Part II can be found [here](http
 - Collaboration
 - API calls
 
+## Testing
+- Testing is currently throwing an error due to an imported function on line 1 of the user class
+- To run tests, please comment out line 1 of the user.js file
+- Tests should now appear when running npm test, you should see all currently functioning tests
+- tests begin to break on line 38 of the user.js class due to the imported function now being commented out
+- this also impacts a couple of the pantry.js tests and the pantry is instantiated when a new user is created on page load
+- To return page functionality, please comment back in line 1 of the user.js file
+
 ## Future Extensions
 - User can remove decimal amounts from their pantry.
 - Only one search bar to handle multiple search queries.
